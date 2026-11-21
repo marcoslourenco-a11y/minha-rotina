@@ -12,3 +12,8 @@ drop policy if exists "atualizar a propria rotina" on public.rotina;
 create policy "ler a propria rotina" on public.rotina for select using (auth.uid() = user_id);
 create policy "criar a propria rotina" on public.rotina for insert with check (auth.uid() = user_id);
 create policy "atualizar a propria rotina" on public.rotina for update using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+-- Garante que usuários logados possam usar a tabela pela API
+-- (projetos novos do Supabase podem vir sem essa permissão).
+grant usage on schema public to authenticated;
+grant select, insert, update on public.rotina to authenticated;

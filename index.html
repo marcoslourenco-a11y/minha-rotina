@@ -551,6 +551,7 @@ body::after{content:"";position:fixed;inset:-20% -10% auto -10%;height:120%;z-in
 .sync.offline i{background:#B0A090}
 .sync.erro i{background:#D63A3A}
 .sync.erro{color:#D63A3A}
+.syncerr{display:block;margin-top:4px;font-size:12px;font-weight:600;color:#D63A3A;max-width:34ch;line-height:1.35}
 .top small + .sync{display:flex}
 .auth{position:fixed;inset:0;z-index:20;display:grid;place-items:center;padding:24px;background:var(--bg)}
 .auth[hidden]{display:none}
@@ -755,8 +756,23 @@ const cloudOn = !!(CFG.supabaseUrl && CFG.supabaseKey && window.supabase);
 const sb = cloudOn ? window.supabase.createClient(CFG.supabaseUrl, CFG.supabaseKey, {auth: {persistSession: true, autoRefreshToken: true, storageKey: 'rotina-auth'}}) : null;
 let user = null, pushTimer = null, syncState = cloudOn ? 'saving' : 'local';
 const SYNC_LABEL = {local: 'Só neste aparelho', ok: 'Sincronizado', saving: 'Sincronizando…', offline: 'Sem internet', erro: 'Erro ao sincronizar'};
-function syncChip(){ return `<span class="sync ${syncState}" id="syncchip"><i></i><span>${SYNC_LABEL[syncState]}</span></span>`; }
-function setSync(st){ syncState = st; const el = document.getElementById('syncchip'); if (el) el.outerHTML = syncChip(); const sl = document.getElementById('s-sync'); if (sl) sl.textContent = SYNC_LABEL[st]; }
+let syncErr = '';
+function explainErr(e){
+  const m = ((e && (e.message || e.code)) || '') + ' ' + ((e && e.code) || '');
+  if (/PGRST205|PGRST202|42P01|Could not find the table|does not exist/i.test(m)) return 'A tabela "rotina" não existe no Supabase. Rode o SQL do Passo 2.';
+  if (/42501|permission denied/i.test(m)) return 'Sem permissão na tabela "rotina". Rode de novo o SQL do Passo 2 (versão nova).';
+  if (/row-level security|RLS/i.test(m)) return 'As regras de acesso (RLS) bloquearam. Rode de novo o SQL do Passo 2.';
+  if (/JWT|apikey|API key|Invalid API|401/i.test(m)) return 'Chave do Supabase recusada. Confira a chave no config.js.';
+  if (/Failed to fetch|NetworkError|Load failed/i.test(m)) return 'Não consegui falar com o Supabase. Confira a internet e a Project URL.';
+  return 'Detalhe: ' + m.trim();
+}
+function syncChip(){ return `<span class="sync ${syncState}" id="syncchip"><i></i><span>${SYNC_LABEL[syncState]}</span></span>${syncState === 'erro' && syncErr ? `<small class="syncerr" id="syncerr">${esc(syncErr)}</small>` : ''}`; }
+function setSync(st, e){
+  syncState = st; syncErr = st === 'erro' ? explainErr(e) : '';
+  const old = document.getElementById('syncerr'); if (old) old.remove();
+  const el = document.getElementById('syncchip'); if (el) el.outerHTML = syncChip();
+  const sl = document.getElementById('s-sync'); if (sl) sl.textContent = SYNC_LABEL[st] + (syncErr ? ' · ' + syncErr : '');
+}
 function schedulePush(){ if (!user) return; setSync('saving'); clearTimeout(pushTimer); pushTimer = setTimeout(push, 1200); }
 async function push(){
   if (!user) return; clearTimeout(pushTimer); pushTimer = null;
@@ -764,14 +780,14 @@ async function push(){
   if (!S.updatedAt) S.updatedAt = Date.now();
   const { error } = await sb.from('rotina').upsert({user_id: user.id, data: S, updated_at: new Date(S.updatedAt).toISOString()});
   if (error) console.warn(error);
-  setSync(error ? 'erro' : 'ok');
+  setSync(error ? 'erro' : 'ok', error);
 }
 function useRemote(row){ const y = window.scrollY; S = row.data; S.updatedAt = Date.parse(row.updated_at); migrate(); keepLocal(); render(); window.scrollTo(0, y); }
 async function pull(){
   if (!user || pushTimer) return;
   if (!navigator.onLine){ setSync('offline'); return; }
   const { data, error } = await sb.from('rotina').select('data, updated_at').eq('user_id', user.id).maybeSingle();
-  if (error){ console.warn(error); setSync('erro'); return; }
+  if (error){ console.warn(error); setSync('erro', error); return; }
   if (!data){ await push(); return; }
   const remoteT = Date.parse(data.updated_at), localT = S.updatedAt || 0;
   if (remoteT > localT + 500) useRemote(data);
@@ -786,7 +802,7 @@ async function afterAuth(){
   if (localStorage.getItem('rotina-linked') !== user.id){
     // Primeiro acesso neste aparelho: vale o que já está salvo na nuvem
     const { data, error } = await sb.from('rotina').select('data, updated_at').eq('user_id', user.id).maybeSingle();
-    if (error){ console.warn(error); setSync('erro'); return; }
+    if (error){ console.warn(error); setSync('erro', error); return; }
     if (data) useRemote(data); else { S.updatedAt = Date.now(); keepLocal(); await push(); }
     localStorage.setItem('rotina-linked', user.id);
   }
@@ -1352,7 +1368,7 @@ function settings(){
     <p class="note">Um dia entra na sequência quando você conclui pelo menos essa porcentagem das tarefas dele.</p>
     <div class="field"><span class="lbl">Paleta de cores</span><div class="pals">${Object.entries(PALS).map(([k, v]) => `<button data-pal="${k}" class="${S.pal === k ? 'on' : ''}"><span class="sw">${v.prev.concat(v.cats.slice(0,4)).map(c => `<i style="background:${c}"></i>`).join('')}</span><b>${v.nome}</b></button>`).join('')}</div></div>
     <div class="field"><span class="lbl">Conta</span>${!cloudOn ? '<p class="note" style="margin:0">Modo local: os dados ficam só neste aparelho.</p>'
-      : user ? `<div class="acct"><div><b>${esc(user.email)}</b><small id="s-sync">${SYNC_LABEL[syncState]}</small></div><button class="fchip" id="s-syncnow">Sincronizar agora</button><button class="fchip" id="s-out">Sair</button></div>` : ''}</div>
+      : user ? `<div class="acct"><div><b>${esc(user.email)}</b><small id="s-sync">${SYNC_LABEL[syncState] + (syncErr ? ' · ' + syncErr : '')}</small></div><button class="fchip" id="s-syncnow">Sincronizar agora</button><button class="fchip" id="s-out">Sair</button></div>` : ''}</div>
     <div class="actions"><button class="btn danger" id="s-reset">Restaurar rotina inicial</button><button class="btn primary" id="s-ok">Pronto</button></div>`);
   if (sheet.querySelector('#s-syncnow')) sheet.querySelector('#s-syncnow').onclick = () => push().then(pull);
   if (sheet.querySelector('#s-out')) sheet.querySelector('#s-out').onclick = async () => { await push(); await sb.auth.signOut(); localStorage.removeItem('rotina-linked'); closeSheet(); };
