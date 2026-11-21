@@ -158,6 +158,24 @@ svg{display:block}
 .pills{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
 .pill{background:var(--surface);border:2px solid var(--line);border-radius:22px;padding:6px 8px 6px 6px}
 .pill.done{background:transparent}
+.grp{background:var(--surface);border:2px solid var(--line);border-radius:24px;margin-bottom:12px;overflow:hidden}
+.grp.open{border-color:color-mix(in srgb,var(--c) 40%,var(--line))}
+.grp-h{display:flex;align-items:center;gap:4px;padding:8px 6px 8px 8px}
+.gtog{flex:1;min-width:0;display:flex;align-items:center;gap:12px;border:0;background:none;padding:4px;text-align:left;color:inherit;border-radius:16px}
+.gtog .tbadge{width:52px;height:52px;margin:0;border-radius:16px}
+.gt{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.gt b{font-family:var(--font-display);font-size:18px;line-height:1.15;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gt small{color:var(--muted);font-weight:700;font-size:12px}
+.gbar{height:6px;border-radius:6px;background:var(--line);overflow:hidden;margin-top:2px}
+.gbar i{display:block;height:100%;background:var(--c);border-radius:6px}
+.chev{flex:none;width:28px;height:28px;display:grid;place-items:center;color:var(--muted);transform:rotate(-90deg);transition:transform .2s}
+.chev svg{width:18px;height:18px}
+.grp.open .chev{transform:rotate(90deg)}
+.grp-b{padding:2px 10px 12px}
+.grp-b .addpill{margin-top:10px;padding:11px}
+.addgrp{display:block;margin:14px auto 0;font-weight:800}
+.crow.sub{padding-left:22px}
+.crow.sub .tbadge{width:30px;height:30px;border-radius:10px;margin:0;font-size:8px}
 .prow{display:flex;align-items:center;gap:6px}
 .pmain{flex:1;min-width:0;border:0;background:none;text-align:left;padding:8px 10px;border-radius:16px}
 .pmain b{display:block;font-weight:800;font-size:16px}
@@ -650,6 +668,8 @@ function catArt(c){
   const k = OLD_ART[c.art] || c.art || DEFAULT_ART[c.id];
   return ART[k] ? artSvg(k) : `<span class="lineic">${svg(ICONS[c.icon] || ICONS.estrela)}</span>`;
 }
+const grpOf = t => (catOf(t.cat).groups || []).find(g => g.id === t.grp);
+function grpLogo(g){ return g.img ? `<span class="tbadge"><img src="${g.img}" alt=""></span>` : `<span class="tbadge txt">${esc(g.name.trim().slice(0, 6).toUpperCase())}</span>`; }
 function taskBadge(t){
   if (t.img) return `<span class="tbadge"><img src="${t.img}" alt=""></span>`;
   if (t.badge) return `<span class="tbadge txt">${esc(t.badge)}</span>`;
@@ -750,6 +770,26 @@ function migrate(){
   document.documentElement.dataset.pal = S.pal;
 }
 migrate();
+function badgeToGroup(t){
+  const c = S.cats.find(x => x.id === t.cat); if (!c) return;
+  const g = {id: 'g-' + t.id, name: t.name}; if (t.img) g.img = t.img;
+  if (!c.groups.some(x => x.id === g.id)) c.groups.push(g);
+  const hs = Object.values(S.hist), used = hs.some(h => h[t.id] || h['t:' + t.id]);
+  const news = t.subs.map(x => ({id: t.id + '-' + x.id, cat: t.cat, grp: g.id, name: x.name, freq: t.freq, days: t.days, date: t.date, times: 1, hora: t.hora, nota: '', subs: []}));
+  hs.forEach(h => {
+    t.subs.forEach(x => { if (h[t.id + ':' + x.id]) h[t.id + '-' + x.id] = 1; delete h[t.id + ':' + x.id]; });
+    if (news.length && h['t:' + t.id]){ h['t:' + news[0].id] = (h['t:' + news[0].id] || 0) + h['t:' + t.id]; delete h['t:' + t.id]; }
+  });
+  const i = S.tasks.indexOf(t);
+  if (news.length) S.tasks.splice(i, 1, ...news);
+  else if (used){ delete t.badge; delete t.img; t.grp = g.id; t.name = 'Atividades gerais'; t.nota = ''; }
+  else S.tasks.splice(i, 1);
+}
+function migrateGroups(){
+  S.cats.forEach(c => { if (!Array.isArray(c.groups)) c.groups = []; });
+  S.tasks.filter(t => t.badge && !t.grp).forEach(badgeToGroup);
+}
+migrateGroups();
 const keepLocal = () => { try { localStorage.setItem(LS_KEY, JSON.stringify(S)); } catch(e) {} };
 const save = () => { S.updatedAt = Date.now(); keepLocal(); schedulePush(); };
 
@@ -785,7 +825,7 @@ async function push(){
   if (error) console.warn(error);
   setSync(error ? 'erro' : 'ok', error);
 }
-function useRemote(row){ const y = window.scrollY; S = row.data; S.updatedAt = Date.parse(row.updated_at); migrate(); keepLocal(); render(); window.scrollTo(0, y); }
+function useRemote(row){ const y = window.scrollY; S = row.data; S.updatedAt = Date.parse(row.updated_at); migrate(); migrateGroups(); keepLocal(); render(); window.scrollTo(0, y); }
 async function pull(){
   if (!user || pushTimer) return;
   if (!navigator.onLine){ setSync('offline'); return; }
@@ -944,20 +984,43 @@ function renderHoje(){
 }
 
 /* ---------- Categoria aberta ---------- */
+let grpOpen = new Set();
+function pillHtml(t, c, h){
+  const full = frac(t, sel) >= 1;
+  const meta = [t.hora && `<span class="num">${esc(t.hora)}</span>`, t.nota && `<span>${esc(t.nota)}</span>`, t.freq === 'semanal' && `<span>${t.days.map(x => DOW[x]).join(', ')}</span>`, t.freq === 'unica' && '<span>Só neste dia</span>'].filter(Boolean).join('');
+  const subs = t.subs.length ? `<ul class="subs">${t.subs.map(x => { const on = h[t.id+':'+x.id]; return `<li><button class="${on ? 'on' : ''}" data-sub="${t.id}:${x.id}"><span class="box" style="${on ? `background:${c.color};border-color:${c.color}` : ''}">${on ? svg(UI.check, 3) : ''}</span><span>${esc(x.name)}</span></button></li>`; }).join('')}</ul>` : '';
+  return `<li class="pill${full ? ' done' : ''}" style="${full ? `border-color:${c.color}55` : ''}"><div class="prow">
+    ${taskBadge(t)}${t.subs.length ? `<div class="pmain"><b>${esc(t.name)}</b>${meta ? `<div class="meta">${meta}</div>` : ''}</div>`
+      : `<button class="pmain" data-tog="${t.id}" data-k="${sel}"><b>${esc(t.name)}</b>${meta ? `<div class="meta">${meta}</div>` : ''}</button>`}
+    <button class="edit" data-edit="${t.id}" aria-label="Editar ${esc(t.name)}">${svg(UI.lapis)}</button>
+    ${checkBtn(t, sel, c.color)}</div>${subs}${usesTime(c) ? `<div class="timerow">${timeBtn(t, sel)}</div>` : ''}</li>`;
+}
+function grpSection(c, g, ts, h){
+  const all = S.tasks.filter(t => t.cat === c.id && t.grp === g.id);
+  const st = dayStats(sel, t => t.cat === c.id && t.grp === g.id), mins = all.reduce((a, t) => a + minsOf(t, sel), 0), open = grpOpen.has(g.id);
+  const info = (st.n ? `${st.done} de ${st.n} feitas` : all.length ? 'Nada para este dia' : 'Sem atividades ainda') + (usesTime(c) && mins ? ` · ${fmtMin(mins)}` : '');
+  return `<section class="grp${open ? ' open' : ''}" style="--c:${c.color}">
+    <div class="grp-h"><button class="gtog" data-gtog="${g.id}" aria-expanded="${open}">${grpLogo(g)}<span class="gt"><b>${esc(g.name)}</b><small class="num">${info}</small><span class="gbar"><i style="width:${st.pct || 0}%"></i></span></span><span class="chev">${svg(UI.voltar, 2.4)}</span></button>
+      <button class="edit" data-egrp="${c.id}:${g.id}" aria-label="Editar ${esc(g.name)}">${svg(UI.lapis)}</button></div>
+    ${open ? `<div class="grp-b">${ts.length ? `<ul class="pills">${ts.map(t => pillHtml(t, c, h)).join('')}</ul>` : `<p class="empty">${all.length ? 'Nenhuma atividade neste dia.' : `Ainda não há atividades em ${esc(g.name)}.`}</p>`}
+      <button class="addpill" data-addin="${c.id}" data-grp="${g.id}">+ Atividade em ${esc(g.name)}</button></div>` : ''}
+  </section>`;
+}
 function renderCat(){
   const c = S.cats.find(x => x.id === openCat); if (!c) { openCat = null; return; }
   const ts = S.tasks.filter(t => t.cat === c.id && scheduled(t, sel)).sort(byHora);
-  const s = dayStats(sel, t => t.cat === c.id), h = S.hist[sel] || {}, d = fromKey(sel);
-  const items = ts.map(t => {
-    const full = frac(t, sel) >= 1;
-    const meta = [t.hora && `<span class="num">${esc(t.hora)}</span>`, t.nota && `<span>${esc(t.nota)}</span>`, t.freq === 'semanal' && `<span>${t.days.map(x => DOW[x]).join(', ')}</span>`, t.freq === 'unica' && '<span>Só neste dia</span>'].filter(Boolean).join('');
-    const subs = t.subs.length ? `<ul class="subs">${t.subs.map(x => { const on = h[t.id+':'+x.id]; return `<li><button class="${on ? 'on' : ''}" data-sub="${t.id}:${x.id}"><span class="box" style="${on ? `background:${c.color};border-color:${c.color}` : ''}">${on ? svg(UI.check, 3) : ''}</span><span>${esc(x.name)}</span></button></li>`; }).join('')}</ul>` : '';
-    return `<li class="pill${full ? ' done' : ''}" style="${full ? `border-color:${c.color}55` : ''}"><div class="prow">
-      ${taskBadge(t)}${t.subs.length ? `<div class="pmain"><b>${esc(t.name)}</b>${meta ? `<div class="meta">${meta}</div>` : ''}</div>`
-        : `<button class="pmain" data-tog="${t.id}" data-k="${sel}"><b>${esc(t.name)}</b>${meta ? `<div class="meta">${meta}</div>` : ''}</button>`}
-      <button class="edit" data-edit="${t.id}" aria-label="Editar ${esc(t.name)}">${svg(UI.lapis)}</button>
-      ${checkBtn(t, sel, c.color)}</div>${subs}${usesTime(c) ? `<div class="timerow">${timeBtn(t, sel)}</div>` : ''}</li>`;
-  }).join('');
+  const s = dayStats(sel, t => t.cat === c.id), h = S.hist[sel] || {}, d = fromKey(sel), groups = c.groups || [];
+  let body;
+  if (groups.length){
+    const loose = ts.filter(t => !groups.some(g => g.id === t.grp));
+    body = groups.map(g => grpSection(c, g, ts.filter(t => t.grp === g.id), h)).join('')
+      + (loose.length ? `<div class="sec-h"><h2>Outras</h2></div><ul class="pills">${loose.map(t => pillHtml(t, c, h)).join('')}</ul>` : '')
+      + `<button class="addpill" data-newgrp="${c.id}" style="margin-top:4px">+ Novo grupo em ${esc(c.name)}</button>`;
+  } else {
+    body = (ts.length ? `<ul class="pills">${ts.map(t => pillHtml(t, c, h)).join('')}</ul>` : `<p class="empty">${c.id === 'imp' ? 'Nada imprevisto neste dia.' : 'Nenhuma tarefa neste dia.'}</p>`)
+      + `<button class="addpill" data-addin="${c.id}" style="margin-top:10px">+ Nova tarefa em ${esc(c.name)}</button>`
+      + `<button class="link addgrp" data-newgrp="${c.id}">Dividir em grupos (ex.: locais de trabalho)</button>`;
+  }
   document.getElementById('scr-cat').innerHTML = `<div class="catwrap">
     <div class="band" style="--c:${c.color};--fg:${inkFor(c.color)}">
       <span class="bandart">${catArt(c)}</span>
@@ -967,10 +1030,7 @@ function renderCat(){
       <div class="sub num">${sel === TODAY ? 'Hoje' : `${cap(DOWL[d.getDay()])}, ${d.getDate()} de ${MES[d.getMonth()]}`} · ${s.done} de ${s.n} feitas</div>
       <div class="hbar"><i style="width:${s.pct || 0}%"></i></div>
     </div>
-    <div class="${sel > TODAY ? 'ro' : ''}">
-      ${ts.length ? `<ul class="pills">${items}</ul>` : `<p class="empty">${c.id === 'imp' ? 'Nada imprevisto neste dia.' : 'Nenhuma tarefa neste dia.'}</p>`}
-      <button class="addpill" data-addin="${c.id}" style="margin-top:10px">+ Nova tarefa em ${esc(c.name)}</button>
-    </div></div>`;
+    <div class="${sel > TODAY ? 'ro' : ''}">${body}</div></div>`;
 }
 
 /* ---------- Agenda: lista corrida e calendário do mês ---------- */
@@ -1156,12 +1216,13 @@ function renderAnalise(){
   const rows = Object.values(P.per).filter(p => p.vezes || p.mins).sort((a, b) => anSort === 'tempo' ? b.mins - a.mins || b.vezes - a.vezes : b.vezes - a.vezes || b.mins - a.mins);
   const maxV = Math.max(1, ...rows.map(r => anSort === 'tempo' ? r.mins : r.vezes));
   const table = rows.length ? `<div class="atable">${rows.map(r => { const c = catOf(r.t.cat), v = anSort === 'tempo' ? r.mins : r.vezes; return `<div class="arow">
-      <div class="an"><b>${esc(r.t.name)}</b><small><span class="tag" style="background:${c.color}"></span>${esc(c.name)}</small></div>
+      <div class="an"><b>${esc(r.t.name)}</b><small><span class="tag" style="background:${c.color}"></span>${esc(c.name)}${grpOf(r.t) ? ' · ' + esc(grpOf(r.t).name) : ''}</small></div>
       <div class="abar"><i style="width:${v / maxV * 100}%;background:${c.color}"></i></div>
       <div class="av num"><b>${plural(r.vezes, 'vez', 'vezes')}</b><small>${r.mins ? `${fmtMin(r.mins)} · média ${fmtMin(r.mins / Math.max(1, r.vezes))}` : '—'}</small></div></div>`; }).join('')}</div>`
     : `<div class="emptychart">Ainda não há atividades concluídas neste período. Conforme você marcar as tarefas, elas aparecem aqui com quantas vezes foram feitas e o tempo gasto.</div>`;
   const cats = S.cats.map(c => { const ps = Object.values(P.per).filter(p => p.t.cat === c.id), sc = ps.reduce((a, p) => a + p.sched, 0), dn = ps.reduce((a, p) => a + p.done, 0), pc = sc ? Math.round(dn / sc * 100) : 0, mm = ps.reduce((a, p) => a + p.mins, 0);
-    return `<div class="crow"><span class="cic" style="background:${c.color};color:${inkFor(c.color)}">${catArt(c)}</span><div class="cn"><b>${esc(c.name)}</b><small>${dn} de ${sc} concluídas${usesTime(c) ? ` · ${fmtMin(mm)}` : ''}</small><span class="cbar2"><i style="width:${pc}%;background:${c.color}"></i></span></div><b class="num cp">${pc}%</b></div>`; }).join('');
+    return `<div class="crow"><span class="cic" style="background:${c.color};color:${inkFor(c.color)}">${catArt(c)}</span><div class="cn"><b>${esc(c.name)}</b><small>${dn} de ${sc} concluídas${usesTime(c) ? ` · ${fmtMin(mm)}` : ''}</small><span class="cbar2"><i style="width:${pc}%;background:${c.color}"></i></span></div><b class="num cp">${pc}%</b></div>` + (c.groups || []).map(g => { const gp = ps.filter(p => p.t.grp === g.id), gsc = gp.reduce((a, p) => a + p.sched, 0), gdn = gp.reduce((a, p) => a + p.done, 0), gpc = gsc ? Math.round(gdn / gsc * 100) : 0, gm = gp.reduce((a, p) => a + p.mins, 0);
+      return `<div class="crow sub">${grpLogo(g)}<div class="cn"><b>${esc(g.name)}</b><small>${gdn} de ${gsc} concluídas${usesTime(c) ? ` · ${fmtMin(gm)}` : ''}</small><span class="cbar2"><i style="width:${gpc}%;background:${c.color}"></i></span></div><b class="num cp">${gpc}%</b></div>`; }).join(''); }).join('');
   document.getElementById('scr-analise').innerHTML = `
     <div class="top"><div><small>Como você está indo</small><h1>Análise</h1></div></div>
     <div class="seg perseg" role="group" aria-label="Período">${[[7,'7 dias'],[30,'30 dias'],[90,'90 dias']].map(([n,l]) => `<button data-per="${n}" class="${anPer === n ? 'on' : ''}">${l}</button>`).join('')}</div>
@@ -1227,7 +1288,10 @@ document.addEventListener('click', e => {
   if (ds.settings){ settings(); return; }
   if (ds.cleardemo){ S.hist = {[TODAY]: S.hist[TODAY] || {}}; S.demo = false; save(); render(); return; }
   if (ds.newcat){ catForm(null); return; }
-  if (ds.addin){ taskForm(null, {cat: ds.addin}); return; }
+  if (ds.addin){ taskForm(null, ds.grp ? {cat: ds.addin, grp: ds.grp} : {cat: ds.addin}); return; }
+  if (ds.gtog){ grpOpen.has(ds.gtog) ? grpOpen.delete(ds.gtog) : grpOpen.add(ds.gtog); const y = window.scrollY; render(); window.scrollTo(0, y); return; }
+  if (ds.newgrp){ grpForm(S.cats.find(x => x.id === ds.newgrp), null); return; }
+  if (ds.egrp){ const [ci, gi] = ds.egrp.split(':'), c = S.cats.find(x => x.id === ci); grpForm(c, c && (c.groups || []).find(g => g.id === gi)); return; }
   if (ds.addon){ taskForm(null, {freq:'unica', date: ds.addon, cat: S.cats.some(c => c.id === 'imp') ? 'imp' : S.cats[0].id}); return; }
   if (ds.jump){ jumpTo(ds.jump, true); return; }
   if (ds.agview){ agView = ds.agview; render(); if (agView === 'lista') jumpTo(agSel); else window.scrollTo(0, 0); return; }
@@ -1286,9 +1350,13 @@ function taskForm(t, preset = {}){
   const isNew = !t;
   const f = JSON.parse(JSON.stringify(t || {id: uid(), cat: openCat || S.cats[0].id, name:'', freq:'diaria', days:[], date: sel, times:1, hora:'', nota:'', subs:[], ...preset}));
   const draw = () => {
+    const gs = catOf(f.cat).groups || [];
+    if (f.grp && !gs.some(g => g.id === f.grp)) f.grp = '';
+    if (isNew && !f.grp && gs.length && preset.grp !== '') f.grp = preset.grp || '';
     openSheet(`<h3>${isNew ? (f.freq === 'unica' ? 'Novo compromisso' : 'Nova tarefa') : 'Editar'}</h3>
       <div class="field"><label for="f-name">Nome</label><input type="text" id="f-name" value="${esc(f.name)}" placeholder="${f.freq === 'unica' ? 'Ex.: Consulta no dentista' : 'Ex.: Beber 2 litros de água'}"></div>
       <div class="field"><label for="f-cat">Categoria</label><select id="f-cat">${S.cats.map(c => `<option value="${c.id}"${c.id === f.cat ? ' selected' : ''}>${esc(c.name)}</option>`).join('')}</select></div>
+      ${gs.length ? `<div class="field"><label for="f-grp">Grupo</label><select id="f-grp">${gs.map(g => `<option value="${g.id}"${g.id === f.grp ? ' selected' : ''}>${esc(g.name)}</option>`).join('')}<option value=""${f.grp ? '' : ' selected'}>Sem grupo</option></select></div>` : ''}
       <div class="field"><span class="lbl">Quando</span><div class="seg" role="group">
         <button data-freq="diaria" class="${f.freq === 'diaria' ? 'on' : ''}">Todo dia</button>
         <button data-freq="semanal" class="${f.freq === 'semanal' ? 'on' : ''}">Dias da semana</button>
@@ -1310,10 +1378,11 @@ function taskForm(t, preset = {}){
       <div class="actions">${isNew ? '<button class="btn" id="f-cancel">Cancelar</button>' : '<button class="btn danger" id="f-del">Excluir</button>'}<button class="btn primary" id="f-save">Salvar</button></div>`);
     const q = s => sheet.querySelector(s);
     const pull = () => {
-      f.name = q('#f-name').value; f.cat = q('#f-cat').value; f.times = Math.max(1, Math.min(20, parseInt(q('#f-times').value) || 1));
+      f.name = q('#f-name').value; f.cat = q('#f-cat').value; f.grp = q('#f-grp') ? q('#f-grp').value : (f.grp || ''); f.times = Math.max(1, Math.min(20, parseInt(q('#f-times').value) || 1));
       f.hora = q('#f-hora').value; f.nota = q('#f-nota').value; if (q('#f-date')) f.date = q('#f-date').value;
       sheet.querySelectorAll('[data-si]').forEach(inp => f.subs[+inp.dataset.si].name = inp.value);
     };
+    q('#f-cat').onchange = () => { pull(); draw(); };
     sheet.querySelectorAll('[data-freq]').forEach(b => b.onclick = () => { pull(); f.freq = b.dataset.freq; if (f.freq === 'semanal' && !f.days.length) f.days = [fromKey(sel).getDay()]; if (f.freq === 'unica' && !f.date) f.date = sel; draw(); });
     sheet.querySelectorAll('[data-dw]').forEach(b => b.onclick = () => { const i = +b.dataset.dw; f.days = f.days.includes(i) ? f.days.filter(x => x !== i) : [...f.days, i].sort(); b.classList.toggle('on'); });
     sheet.querySelectorAll('[data-rs]').forEach(b => b.onclick = () => { pull(); f.subs.splice(+b.dataset.rs, 1); draw(); });
@@ -1328,6 +1397,36 @@ function taskForm(t, preset = {}){
       if (f.freq === 'semanal' && !f.days.length){ q('#f-err').textContent = 'Escolha pelo menos um dia da semana.'; return; }
       if (f.freq === 'unica' && !f.date){ q('#f-err').textContent = 'Escolha a data.'; return; }
       const i = S.tasks.findIndex(x => x.id === f.id); if (i >= 0) S.tasks[i] = f; else S.tasks.push(f);
+      afterSave();
+    };
+  };
+  draw();
+}
+
+function grpForm(c, g){
+  if (!c) return;
+  const isNew = !g, f = {...(g || {id: 'g-' + uid(), name: ''})};
+  const n = g ? S.tasks.filter(t => t.grp === g.id).length : 0;
+  const draw = () => {
+    openSheet(`<h3>${isNew ? 'Novo grupo' : 'Editar grupo'}</h3>
+      <p class="note">Grupos dividem ${esc(c.name)} em partes, como locais de trabalho. Cada grupo tem as próprias atividades e o próprio tempo registrado.</p>
+      <div class="field"><label for="g-name">Nome</label><input type="text" id="g-name" value="${esc(f.name)}" placeholder="Ex.: LCS"></div>
+      <div class="field"><span class="lbl">Logo (opcional)</span><div class="imgpick"><span class="prev">${f.img ? `<img src="${f.img}" alt="">` : ''}</span>
+        <label class="btnlike" for="g-img">Escolher imagem</label><input type="file" id="g-img" accept="image/*">${f.img ? '<button class="link" id="g-noimg">Remover</button>' : ''}</div></div>
+      <div class="err" id="g-err"></div>
+      <div class="actions">${isNew ? '<button class="btn" id="g-cancel">Cancelar</button>' : `<button class="btn danger" id="g-del">Excluir${n ? ` com ${plural(n, 'atividade', 'atividades')}` : ''}</button>`}<button class="btn primary" id="g-save">Salvar</button></div>`);
+    const q = x => sheet.querySelector(x), pull = () => { f.name = q('#g-name').value; };
+    q('#g-img').onchange = () => pickImage(q('#g-img'), u => { pull(); f.img = u; draw(); });
+    if (q('#g-noimg')) q('#g-noimg').onclick = () => { pull(); delete f.img; draw(); };
+    if (q('#g-cancel')) q('#g-cancel').onclick = closeSheet;
+    const cc = () => S.cats.find(x => x.id === c.id);
+    if (q('#g-del')) armDelete(q('#g-del'), () => { const k = cc(); if (k) k.groups = k.groups.filter(x => x.id !== f.id); S.tasks = S.tasks.filter(t => t.grp !== f.id); afterSave(); });
+    q('#g-save').onclick = () => {
+      pull(); f.name = f.name.trim();
+      if (!f.name){ q('#g-err').textContent = 'Dê um nome para o grupo.'; q('#g-name').focus(); return; }
+      const k = cc(); if (!k) { closeSheet(); return; }
+      k.groups = k.groups || []; const i = k.groups.findIndex(x => x.id === f.id);
+      if (i >= 0) k.groups[i] = f; else { k.groups.push(f); grpOpen.add(f.id); }
       afterSave();
     };
   };
