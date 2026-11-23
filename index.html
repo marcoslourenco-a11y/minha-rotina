@@ -727,7 +727,7 @@ h1,h2,h3{font-family:var(--font-display);font-weight:600;letter-spacing:-.02em}
 .banner{position:relative;overflow:hidden;isolation:isolate;border-radius:24px;background:var(--panel);border:1px solid var(--line);padding:18px 18px 16px;min-height:200px}
 .banner .scene{position:absolute;right:0;top:0;bottom:0;width:78%;z-index:-1;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 46%);mask-image:linear-gradient(90deg,transparent 0,#000 46%);opacity:.5}
 .banner .scene svg{width:100%;height:100%}
-.banner .crumb{color:var(--muted);display:block;padding-right:92px;line-height:1.5}
+.banner .crumb{color:var(--muted);display:block;padding-right:142px;line-height:1.5}
 .banner h1{font-size:36px;line-height:1.05;margin:12px 0 10px;max-width:15ch}
 .banner h1 em{font-style:normal;color:var(--accent)}
 .banner .sum{color:var(--ink);max-width:64ch;line-height:1.6;font-size:11px}
@@ -1034,6 +1034,42 @@ h1,h2,h3{font-family:var(--font-display);font-weight:600;letter-spacing:-.02em}
 .bacts{position:absolute;top:12px;right:12px;gap:8px}
 .hgrid .hd svg{width:12px;height:12px;margin:0 auto;color:var(--accent)}
 
+
+/* ---------- Perfil, meta editável e anotações ---------- */
+[hidden]{display:none!important}
+button.av{border:0;padding:0;overflow:hidden;cursor:pointer}
+.av img,.av2 img,.pfprev img{width:100%;height:100%;object-fit:cover;display:block}
+.av2{overflow:hidden;padding:0;background:var(--orange);color:#fff;font-family:var(--font-display);font-weight:600}
+.namebtn{border:0;background:none;padding:0;font:inherit;color:inherit;cursor:pointer;text-decoration:underline dotted 2px;text-decoration-color:color-mix(in srgb,var(--accent) 45%,transparent);text-underline-offset:6px}
+.statbtn{border:0;background:none;padding:0;color:inherit;text-align:left;cursor:pointer}
+.statbtn b{display:flex!important;align-items:center;gap:4px}
+.statbtn b svg{width:11px;height:11px;opacity:.7}
+.pfrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.pfprev{width:64px;height:64px;border-radius:50%;overflow:hidden;background:var(--orange);color:#fff;display:grid;place-items:center;font-family:var(--font-display);font-size:28px;font-weight:600;flex:none}
+.pfprev svg{width:28px;height:28px}
+.pfrow label.pill-btn{cursor:pointer}
+.field textarea{border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:10px 12px;width:100%;resize:vertical;font:inherit;font-size:16px;line-height:1.45;color:var(--ink);min-height:160px}
+.field select{appearance:auto}
+.nsearch{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 14px;min-width:0;width:240px;max-width:100%;color:var(--ink)}
+.notes{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;align-items:start}
+.nt{display:flex;flex-direction:column;gap:6px;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:18px;padding:14px 14px 12px;color:var(--ink);min-height:120px;border-top:4px solid var(--c,var(--line))}
+.nt b{font-family:var(--font-display);font-weight:600;font-size:17px;line-height:1.2}
+.nt p{margin:0;color:var(--ink);opacity:.85;font-size:13.5px;line-height:1.45;white-space:pre-wrap;display:-webkit-box;-webkit-line-clamp:8;-webkit-box-orient:vertical;overflow:hidden}
+.nt .nf{margin-top:auto;color:var(--muted);display:flex;align-items:center;gap:5px;padding-top:6px}
+.nt .nf i{width:7px;height:7px;border-radius:50%;background:var(--c)}
+.nt .pinic{margin-left:auto;color:var(--accent)}
+.nt .pinic svg{width:13px;height:13px}
+.nt.pin{background:color-mix(in srgb,var(--orange) 7%,var(--surface))}
+.nt.newnote{align-items:center;justify-content:center;border:1.5px dashed var(--line);background:transparent;color:var(--muted);font-weight:600}
+.nt.newnote svg{width:22px;height:22px}
+.nmini{display:flex;flex-direction:column;margin:8px 0 12px}
+.nrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;border:0;border-top:1px solid var(--line);background:none;padding:9px 0;text-align:left;color:var(--ink)}
+.nrow:first-child{border-top:0}
+.nrow b{font-weight:600;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nrow small{grid-column:1;color:var(--muted);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nrow .mono{grid-column:2;grid-row:1;color:var(--muted)}
+.bacts .rbtn.av2{font-size:17px}
+@media (max-width:560px){ .home .o-notes{order:0} .nsearch{width:100%} }
 :focus-visible{outline-color:var(--ink)}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
@@ -1044,12 +1080,13 @@ h1,h2,h3{font-family:var(--font-display);font-weight:600;letter-spacing:-.02em}
   <section class="screen" id="scr-cat" hidden></section>
   <section class="screen" id="scr-tarefas" hidden></section>
   <section class="screen" id="scr-habitos" hidden></section>
+  <section class="screen" id="scr-notas" hidden></section>
   <section class="screen" id="scr-agenda" hidden></section>
   <section class="screen" id="scr-analise" hidden></section>
 </div>
 <nav class="side" aria-label="Navegação">
-  <div class="brand"><span class="logo" id="logo-ic"></span><span>Minha <em>Rotina</em></span></div>
-  <div class="who"><span class="av" id="av"></span><button class="rbtn go" id="fab" aria-label="Adicionar" title="Adicionar"><span id="fab-ic"></span></button></div>
+  <div class="brand"><span class="logo" id="logo-ic"></span><span id="brand-nm">Minha <em>Rotina</em></span></div>
+  <div class="who"><button class="av" id="av" data-profile="1" aria-label="Seu perfil e foto"></button><button class="rbtn go" id="fab" aria-label="Adicionar" title="Adicionar"><span id="fab-ic"></span></button></div>
   <span class="sidelbl mono">Sua rotina</span>
   <div class="navs" id="navs"></div>
   <div class="foot"><button class="nv" data-settings="1"><span class="ni" id="ic-aj"></span>Ajustes</button></div>
@@ -1366,7 +1403,17 @@ function dayStats(k, filter = () => true){
   const sum = ts.reduce((a, t) => a + frac(t, k), 0);
   return { n: ts.length, sum, done: ts.filter(t => frac(t, k) >= 1).length, pct: ts.length ? sum / ts.length * 100 : null };
 }
-const hit = k => { const p = dayStats(k).pct; return p !== null && p >= S.meta; };
+// Meta do dia: fixa (escolhida pelo usuário) ou automática (acompanha a média dos últimos 14 dias)
+let metaCache = null;
+function autoMeta(){
+  const start = S.created || TODAY, ps = [];
+  for (let i = 1; i <= 14; i++){ const k = addDays(TODAY, -i); if (k < start) break; const p = dayStats(k).pct; if (p !== null) ps.push(p); }
+  if (!ps.length) return S.meta;
+  const avg = ps.reduce((a, x) => a + x, 0) / ps.length;
+  return Math.min(90, Math.max(30, Math.round(avg / 5) * 5));
+}
+const metaOf = () => S.metaAuto ? (metaCache ?? (metaCache = autoMeta())) : S.meta;
+const hit = k => { const p = dayStats(k).pct; return p !== null && p >= metaOf(); };
 // Dia que conta na sequência: com a meta diária batida (padrão, 50%) ou com pelo menos uma tarefa marcada
 const seqMode = () => S.seq || 'meta';
 const seqDay = k => seqMode() === 'meta' ? hit(k) : dayStats(k).sum > 0;
@@ -1401,8 +1448,10 @@ Object.assign(UI, {
   folha:'M5 19c0-8 5-14 14-14 0 9-6 14-14 14zM5 19l7-7',
   estrela:'M12 4l2.3 4.8 5.2.7-3.8 3.6.9 5.2L12 15.8 7.4 18.3l.9-5.2L4.5 9.5l5.2-.7z',
   sub:'M5 6h14M9 12h10M9 18h10M5 12h.01M5 18h.01',
-  dir:'M9 5l7 7-7 7'
+  dir:'M9 5l7 7-7 7',
+  nota:'M6 3h9l4 4v14H6zM14 3v5h5M9 12h7M9 16h5'
 });
+function brandHtml(){ const n = (S.appNome || '').trim(); if (!n) return 'Minha <em>Rotina</em>'; const i = n.lastIndexOf(' '); return i > 0 ? `${esc(n.slice(0, i))} <em>${esc(n.slice(i + 1))}</em>` : esc(n); }
 const greet = () => { const h = new Date().getHours(); return h < 12 ? 'Bom dia' : h < 18 ? 'Boa tarde' : 'Boa noite'; };
 function userName(){
   if (S.nome) return S.nome;
@@ -1411,7 +1460,7 @@ function userName(){
   return n ? cap(n.toLowerCase()) : '';
 }
 function pageHead(crumb, title, sub, extra = ''){
-  return `<div class="ph"><div><span class="crumb mono">Minha rotina / ${crumb}</span><h1>${title}${sub ? `<em>${sub}</em>` : ''}</h1></div>
+  return `<div class="ph"><div><span class="crumb mono">${esc(S.appNome || 'Minha rotina')} / ${crumb}</span><h1>${title}${sub ? `<em>${sub}</em>` : ''}</h1></div>
     <div class="acts">${extra}<button class="rbtn go m-only" data-add="1" aria-label="Adicionar">${svg(UI.mais, 2.4)}</button><button class="rbtn m-only" data-settings="1" aria-label="Ajustes">${svg(UI.ajustes)}</button></div></div>`;
 }
 const longDate = k => { const d = fromKey(k); return `${DOWL[d.getDay()]}, ${d.getDate()} de ${MESL[d.getMonth()].toLowerCase()}`; };
@@ -1460,7 +1509,7 @@ function lineChart(n){
   const ys = ks.map(k => { if (k < start) return null; const p = dayStats(k).pct; return p === null ? null : H - P - p / 100 * (H - 2 * P); });
   const x = i => (i / (n - 1) * W).toFixed(1);
   const pts = ys.map((y, i) => y === null ? null : [x(i), y.toFixed(1)]).filter(Boolean);
-  const my = (H - P - S.meta / 100 * (H - 2 * P)).toFixed(1);
+  const my = (H - P - metaOf() / 100 * (H - 2 * P)).toFixed(1);
   let body = `<line class="base" x1="0" x2="${W}" y1="${H - P}" y2="${H - P}"/><line class="mt" x1="0" x2="${W}" y1="${my}" y2="${my}"/>`;
   if (pts.length){
     const line = pts.length === 1 ? `M${Math.max(0, pts[0][0] - 12)} ${pts[0][1]} L${pts[0][0]} ${pts[0][1]}` : 'M' + pts.map(p => p.join(' ')).join(' L');
@@ -1498,7 +1547,7 @@ function trowHtml(t, k, chip){
 function renderHoje(){
   const d = fromKey(sel), isToday = sel === TODAY, dayWord = isToday ? 'hoje' : 'neste dia';
   const st = dayStats(sel), sk = streak(), best = bestStreak();
-  const need = Math.max(0, Math.ceil(S.meta * st.n / 100 - st.sum - 1e-9));
+  const need = Math.max(0, Math.ceil(metaOf() * st.n / 100 - st.sum - 1e-9));
   const prev = seqDay(TODAY) ? sk - 1 : sk, uma = seqMode() === 'uma';
   let msg;
   if (!isToday) msg = sel > TODAY ? 'Dia futuro: dá para ver e editar as tarefas.' : 'Você pode corrigir o que esqueceu de marcar neste dia.';
@@ -1545,9 +1594,9 @@ function renderHoje(){
   document.getElementById('scr-hoje').innerHTML = `<div class="home">
     <div class="banner">
       <div class="scene">${SCENE}</div>
-      <div class="bacts m-only"><button class="rbtn go" data-add="1" aria-label="Adicionar">${svg(UI.mais, 2.4)}</button><button class="rbtn" data-settings="1" aria-label="Ajustes">${svg(UI.ajustes)}</button></div>
-      <span class="crumb mono">Minha rotina / Início · ${longDate(sel)}</span>
-      <h1>${isToday ? `${greet()}${nome ? `, <em>${esc(nome)}</em>` : ''}` : `<em>${cap(longDate(sel))}</em>`}</h1>
+      <div class="bacts m-only"><button class="rbtn av2" data-profile="1" aria-label="Seu perfil e foto">${avatarHtml()}</button><button class="rbtn go" data-add="1" aria-label="Adicionar">${svg(UI.mais, 2.4)}</button><button class="rbtn" data-settings="1" aria-label="Ajustes">${svg(UI.ajustes)}</button></div>
+      <span class="crumb mono">${esc(S.appNome || 'Minha rotina')} / Início · ${longDate(sel)}</span>
+      <h1>${isToday ? `${greet()}, <button class="namebtn" data-profile="1" aria-label="Mudar seu nome"><em>${nome ? esc(nome) : 'seu nome'}</em></button>` : `<em>${cap(longDate(sel))}</em>`}</h1>
       <p class="sum mono">Você tem ${plural(st.n, 'tarefa', 'tarefas')} para ${dayWord}, ${st.done} já ${st.done === 1 ? 'feita' : 'feitas'}${sp.length ? ` e ${plural(sp.length, 'compromisso', 'compromissos')}` : ''}.</p>
       <div class="quick">${!isToday ? `<button class="pill-btn" data-gotoday="1">${svg(UI.voltar, 2.4)}Voltar para hoje</button>` : ''}
         <button class="pill-btn" data-qadd="task">${svg(UI.mais, 2.4)}Tarefa</button><button class="pill-btn" data-addon="${sel}">${svg(UI.mais, 2.4)}Compromisso</button><button class="pill-btn" data-newcat="1">${svg(UI.mais, 2.4)}Categoria</button></div>
@@ -1570,7 +1619,7 @@ function renderHoje(){
       <div class="hh"><h2>Sequência</h2><span class="mono">Últimos 30 dias</span></div>
       <div class="big num" style="margin-top:12px">${sk}<small>${sk === 1 ? 'dia seguido' : 'dias seguidos'}</small></div>
       ${lineChart(30)}
-      <div class="stats"><div><b class="num">${best}</b><small>recorde</small></div><div><b class="num">${S.meta}%</b><small>meta do dia</small></div><div><b class="num">${Math.round(dayStats(TODAY).pct || 0)}%</b><small>hoje</small></div></div>
+      <div class="stats"><div><b class="num">${best}</b><small>recorde</small></div><button class="statbtn" data-editmeta="1" aria-label="Mudar a meta do dia"><b class="num">${metaOf()}%${svg(UI.lapis, 2.2)}</b><small>${S.metaAuto ? 'meta automática' : 'meta do dia'}</small></button><div><b class="num">${Math.round(dayStats(TODAY).pct || 0)}%</b><small>hoje</small></div></div>
       <div class="note2">${svg(UI.estrela, 2)}<span>${msg}</span></div>
     </div>
     <div class="o-cal">${miniCal()}</div>
@@ -1583,6 +1632,11 @@ function renderHoje(){
         <div><b class="num">${done7}</b><small class="mono"><i style="background:var(--muted)"></i>Feitas 7d</small></div>
       </div>
       <div class="scrolly${sel > TODAY ? ' ro' : ''}">${listHtml}</div>
+    </div>
+    <div class="hc list o-notes">
+      <div class="hh"><h2>Anotações</h2><button class="tag-btn" data-tab="notas">Ver todas</button></div>
+      <div class="nmini">${notesSorted().slice(0, 3).map(n => `<button class="nrow" data-note="${n.id}"><b>${esc(n.title || n.body.split('\n')[0])}</b><small>${esc(n.title ? n.body.split('\n')[0] : '')}</small><span class="mono">${n.pin ? '★ ' : ''}${fmtWhen(n.upd)}</span></button>`).join('') || '<div class="empty2">Nenhuma anotação ainda.</div>'}</div>
+      <button class="pill-btn dash" data-newnote="1" style="margin-top:auto;align-self:flex-start">${svg(UI.mais, 2.4)}Nova anotação</button>
     </div>
     <div class="hc list o-next">
       <div class="hh"><h2>Compromissos</h2><button class="tag-btn" data-tab="agenda">Agenda</button></div>
@@ -1796,7 +1850,7 @@ function monthGrid(){
     const p = k <= TODAY && !before ? Math.round(dayStats(k).pct || 0) : null;
     const late = k < TODAY && pend.length;
     cells += `<button class="cd${inM ? '' : ' out'}${k === TODAY ? ' today' : ''}${k === agSel ? ' sel' : ''}${late ? ' late' : ''}" data-calday="${k}" aria-label="${d.getDate()} de ${MESL[d.getMonth()]}${pend.length ? `, ${plural(pend.length,'pendente','pendentes')}` : ''}">
-      <b class="num">${d.getDate()}</b><span class="dots">${dots}</span>${p !== null && inM ? `<span class="cbar"><i style="width:${p}%;background:${p >= S.meta ? 'var(--good)' : 'var(--accent)'}"></i></span>` : ''}</button>`;
+      <b class="num">${d.getDate()}</b><span class="dots">${dots}</span>${p !== null && inM ? `<span class="cbar"><i style="width:${p}%;background:${p >= metaOf() ? 'var(--good)' : 'var(--accent)'}"></i></span>` : ''}</button>`;
     k = addDays(k, 1);
   }
   return `<div class="cal">
@@ -1982,21 +2036,25 @@ document.addEventListener('pointermove', showTip);
 document.addEventListener('pointerdown', showTip);
 
 /* ---------- Render geral ---------- */
-const NAV = [['hoje', 'Início', 'casa'], ['tarefas', 'Tarefas', 'lista'], ['habitos', 'Hábitos', 'chama'], ['agenda', 'Agenda', 'cal'], ['analise', 'Análise', 'grafico']];
+const NAV = [['hoje', 'Início', 'casa'], ['tarefas', 'Tarefas', 'lista'], ['habitos', 'Hábitos', 'chama'], ['agenda', 'Agenda', 'cal'], ['notas', 'Notas', 'nota'], ['analise', 'Análise', 'grafico']];
 function renderNav(){
   const st = dayStats(TODAY), pend = st.n - st.done, nome = userName();
   document.getElementById('navs').innerHTML = NAV.map(([id, l, ic]) => `<button class="nv${tab === id ? ' on' : ''}" data-tab="${id}"${tab === id ? ' aria-current="page"' : ''}><span class="ni">${svg(UI[ic], 2)}</span>${l}${id === 'tarefas' && pend ? `<span class="bdg num" aria-label="${pend} pendentes">${pend}</span>` : ''}</button>`).join('');
-  document.getElementById('av').innerHTML = nome ? esc(nome[0].toUpperCase()) : svg(UI.sol);
+  document.getElementById('av').innerHTML = avatarHtml();
+  document.getElementById('brand-nm').innerHTML = brandHtml();
+  document.title = S.appNome || 'Minha Rotina';
 }
 function render(){
+  metaCache = null;
   const bd = document.getElementById('board'), keepX = bd && tab === 'tarefas' && !boardToToday ? bd.scrollLeft : null;
   if (tab === 'agenda') renderAgenda();
   else if (tab === 'analise') renderAnalise();
   else if (tab === 'tarefas') renderTarefas();
   else if (tab === 'habitos') renderHabitos();
+  else if (tab === 'notas') renderNotas();
   else if (openCat) renderCat();
   if (tab === 'hoje' && !openCat) renderHoje();
-  const show = {hoje: tab === 'hoje' && !openCat, cat: tab === 'hoje' && !!openCat, tarefas: tab === 'tarefas', habitos: tab === 'habitos', agenda: tab === 'agenda', analise: tab === 'analise'};
+  const show = {hoje: tab === 'hoje' && !openCat, cat: tab === 'hoje' && !!openCat, tarefas: tab === 'tarefas', habitos: tab === 'habitos', notas: tab === 'notas', agenda: tab === 'agenda', analise: tab === 'analise'};
   Object.entries(show).forEach(([id, on]) => { document.getElementById('scr-' + id).hidden = !on; });
   renderTimerBar(); renderNav();
   document.getElementById('content').classList.toggle('ag', tab === 'agenda');
@@ -2023,6 +2081,11 @@ document.addEventListener('click', e => {
   const ds = b.dataset;
   if (ds.tab){ go(ds.tab); return; }
   if (ds.add){ addMenu(); return; }
+  if (ds.profile){ profileForm(); return; }
+  if (ds.editmeta){ metaForm(); return; }
+  if (ds.newnote){ noteForm(null, openCat ? {cat: openCat} : {}); return; }
+  if (ds.note){ noteForm((S.notes || []).find(n => n.id === ds.note)); return; }
+  if (ds.nf){ noteFilter = ds.nf; render(); return; }
   if (ds.qadd){ taskForm(null, openCat ? {cat: openCat} : {}); return; }
   if (ds.wk){ tWeek = ds.wk === '0' ? mondayOf(TODAY) : addDays(tWeek, 7 * ds.wk); boardToToday = true; render(); return; }
   if (ds.hidedone){ hideDone = !hideDone; render(); return; }
@@ -2090,11 +2153,13 @@ function addMenu(){
   openSheet(`<h3>Adicionar</h3><div class="menu">
     <button id="m-imp"><span class="ic" style="background:${seedColor('imp')}">${svg(ICONS.raio)}</span><span>Compromisso ou imprevisto<small>Vale só para uma data e aparece na agenda</small></span></button>
     <button id="m-task"><span class="ic" style="background:var(--accent)">${svg(UI.check)}</span><span>Tarefa de rotina<small>Repete todo dia ou em dias certos da semana</small></span></button>
+    <button id="m-note"><span class="ic" style="background:var(--forest)">${svg(UI.nota)}</span><span>Anotação<small>Ideia, lista ou lembrete livre</small></span></button>
     <button id="m-cat"><span class="ic" style="background:#56657A">${svg(ICONS.estrela)}</span><span>Categoria<small>Novo bloco com nome, ícone e cor</small></span></button>
   </div><div class="actions"><button class="btn" id="m-close">Cancelar</button></div>`);
   sheet.querySelector('#m-task').onclick = () => taskForm(null);
   sheet.querySelector('#m-imp').onclick = () => taskForm(null, {freq:'unica', date: day, cat: openCat || (S.cats.some(c => c.id === 'imp') ? 'imp' : S.cats[0].id)});
   sheet.querySelector('#m-cat').onclick = () => catForm(null);
+  sheet.querySelector('#m-note').onclick = () => noteForm(null);
   sheet.querySelector('#m-close').onclick = closeSheet;
 }
 
@@ -2217,24 +2282,121 @@ function catForm(c){
   };
 }
 
-function settings(){
-  openSheet(`<h3>Ajustes</h3>
+function metaFields(){
+  return `<div class="field"><span class="lbl">Tipo de meta</span><div class="seg"><button data-mauto="0" class="${S.metaAuto ? '' : 'on'}">Fixa</button><button data-mauto="1" class="${S.metaAuto ? 'on' : ''}">Automática</button></div></div>
+    <div class="field" id="m-fix"${S.metaAuto ? ' hidden' : ''}><label for="s-meta">Meta diária: <span id="s-val" class="num">${S.meta}%</span></label><input type="range" id="s-meta" min="10" max="100" step="5" value="${S.meta}"></div>
+    <p class="note" id="m-auto"${S.metaAuto ? '' : ' hidden'}>A meta acompanha a sua média dos últimos 14 dias (entre 30% e 90%). Hoje ela está em <b class="num">${autoMeta()}%</b>.</p>
+    <div class="field"><span class="lbl">Um dia conta na sequência quando</span><div class="seg"><button data-seq="meta" class="${seqMode() === 'meta' ? 'on' : ''}">Bato a meta</button><button data-seq="uma" class="${seqMode() === 'uma' ? 'on' : ''}">Marco 1 tarefa ou mais</button></div></div>`;
+}
+function wireMeta(f){
+  const q = x => sheet.querySelector(x), r = q('#s-meta');
+  f.meta = S.meta; f.metaAuto = !!S.metaAuto; f.seq = seqMode();
+  r.oninput = () => { q('#s-val').textContent = r.value + '%'; f.meta = +r.value; };
+  sheet.querySelectorAll('[data-mauto]').forEach(b => b.onclick = () => { f.metaAuto = b.dataset.mauto === '1'; sheet.querySelectorAll('[data-mauto]').forEach(x => x.classList.toggle('on', x === b)); q('#m-fix').hidden = f.metaAuto; q('#m-auto').hidden = !f.metaAuto; });
+  sheet.querySelectorAll('[data-seq]').forEach(b => b.onclick = () => { f.seq = b.dataset.seq; sheet.querySelectorAll('[data-seq]').forEach(x => x.classList.toggle('on', x === b)); });
+}
+const applyMeta = f => { S.meta = f.meta; S.metaAuto = f.metaAuto; S.seq = f.seq; };
+function metaForm(){
+  const f = {};
+  openSheet(`<h3>Meta do dia</h3>${metaFields()}<div class="actions"><button class="btn" id="m-cancel">Cancelar</button><button class="btn primary" id="m-ok">Salvar</button></div>`);
+  wireMeta(f);
+  sheet.querySelector('#m-cancel').onclick = closeSheet;
+  sheet.querySelector('#m-ok').onclick = () => { applyMeta(f); afterSave(); };
+}
+// Foto de perfil: recorta no centro em quadrado e reduz para caber na sincronização
+function pickPhoto(input, cb){
+  const file = input.files && input.files[0]; if (!file) return;
+  const rd = new FileReader();
+  rd.onload = () => { const im = new Image(); im.onload = () => {
+    const sz = 256, cv = document.createElement('canvas'); cv.width = cv.height = sz;
+    const m = Math.min(im.width, im.height);
+    cv.getContext('2d').drawImage(im, (im.width - m) / 2, (im.height - m) / 2, m, m, 0, 0, sz, sz);
+    cb(cv.toDataURL('image/jpeg', .85));
+  }; im.src = rd.result; };
+  rd.readAsDataURL(file);
+}
+const avatarHtml = () => S.foto ? `<img src="${S.foto}" alt="">` : (userName() ? esc(userName()[0].toUpperCase()) : svg(UI.sol));
+function profileFields(){
+  return `<div class="field"><span class="lbl">Foto de perfil</span><div class="pfrow"><span class="pfprev" id="p-prev">${avatarHtml()}</span>
+      <label class="pill-btn">${svg(UI.mais, 2.4)}<span>${S.foto ? 'Trocar foto' : 'Escolher foto'}</span><input type="file" accept="image/*" id="p-img" hidden></label>
+      <button class="pill-btn" id="p-rm"${S.foto ? '' : ' hidden'}>Remover</button></div></div>
     <div class="field"><label for="s-nome">Seu nome</label><input type="text" id="s-nome" value="${esc(S.nome || userName())}" placeholder="Como quer ser chamado no Início" autocomplete="given-name"></div>
-    <div class="field"><span class="lbl">Um dia conta na sequência quando</span><div class="seg" id="s-seq"><button data-seq="meta" class="${seqMode() === 'meta' ? 'on' : ''}">Bato a meta diária</button><button data-seq="uma" class="${seqMode() === 'uma' ? 'on' : ''}">Marco 1 tarefa ou mais</button></div></div>
-    <div class="field"><label for="s-meta">Meta diária: <span id="s-val" class="num">${S.meta}%</span></label><input type="range" id="s-meta" min="50" max="100" step="5" value="${S.meta}"></div>
-    <p class="note">Usada nos dias na meta, nos gráficos e, se você escolher, na sequência.</p>
+    <div class="field"><label for="s-app">Nome do app</label><input type="text" id="s-app" value="${esc(S.appNome || '')}" placeholder="Minha Rotina"></div>`;
+}
+function wireProfile(f){
+  const q = x => sheet.querySelector(x);
+  f.foto = S.foto || '';
+  q('#p-img').onchange = () => pickPhoto(q('#p-img'), u => { f.foto = u; q('#p-prev').innerHTML = `<img src="${u}" alt="">`; q('#p-rm').hidden = false; });
+  q('#p-rm').onclick = () => { f.foto = ''; q('#p-prev').innerHTML = esc((q('#s-nome').value.trim() || '?')[0].toUpperCase()); q('#p-rm').hidden = true; };
+}
+const applyProfile = f => { S.foto = f.foto; S.nome = sheet.querySelector('#s-nome').value.trim(); S.appNome = sheet.querySelector('#s-app').value.trim(); };
+function profileForm(){
+  const f = {};
+  openSheet(`<h3>Seu perfil</h3>${profileFields()}<div class="actions"><button class="btn" id="p-cancel">Cancelar</button><button class="btn primary" id="p-ok">Salvar</button></div>`);
+  wireProfile(f);
+  sheet.querySelector('#p-cancel').onclick = closeSheet;
+  sheet.querySelector('#p-ok').onclick = () => { applyProfile(f); afterSave(); };
+}
+
+/* ---------- Anotações ---------- */
+let noteFilter = 'todas', noteQ = '';
+const fmtWhen = ts => { const d = new Date(ts), k = keyOf(d); return k === TODAY ? `hoje, ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}` : k === addDays(TODAY, -1) ? 'ontem' : `${d.getDate()} ${MES[d.getMonth()]}`; };
+const notesSorted = () => (S.notes || []).slice().sort((a, b) => (b.pin ? 1 : 0) - (a.pin ? 1 : 0) || b.upd - a.upd);
+function noteCard(n){
+  const c = n.cat ? S.cats.find(x => x.id === n.cat) : null;
+  return `<button class="nt${n.pin ? ' pin' : ''}" data-note="${n.id}" style="${c ? `--c:${c.color}` : ''}">
+    ${n.title ? `<b>${esc(n.title)}</b>` : ''}${n.body ? `<p>${esc(n.body)}</p>` : ''}
+    <span class="nf mono">${c ? `<i></i>${esc(c.name)} · ` : ''}${fmtWhen(n.upd)}${n.pin ? `<span class="pinic">${svg(UI.estrela, 2)}</span>` : ''}</span></button>`;
+}
+function renderNotas(){
+  const all = notesSorted(), qq = noteQ.trim().toLowerCase();
+  const list = all.filter(n => (noteFilter !== 'fixadas' || n.pin) && (noteFilter === 'todas' || noteFilter === 'fixadas' || n.cat === noteFilter) && (!qq || (n.title + ' ' + n.body).toLowerCase().includes(qq)));
+  const used = [...new Set(all.map(n => n.cat).filter(Boolean))].map(id => S.cats.find(c => c.id === id)).filter(Boolean);
+  document.getElementById('scr-notas').innerHTML = `${pageHead('Anotações', 'Anotações', 'Ideias e lembretes')}
+    <div class="tbar"><div class="filters" style="margin:0;flex-wrap:wrap">
+      <button class="fchip${noteFilter === 'todas' ? ' on' : ''}" data-nf="todas">Todas · ${all.length}</button>
+      <button class="fchip${noteFilter === 'fixadas' ? ' on' : ''}" data-nf="fixadas">Fixadas · ${all.filter(n => n.pin).length}</button>
+      ${used.map(c => `<button class="fchip${noteFilter === c.id ? ' on' : ''}" data-nf="${c.id}">${esc(c.name)}</button>`).join('')}</div>
+      <span class="sp"></span><input type="search" class="nsearch" id="nsearch" placeholder="Buscar nas anotações" value="${esc(noteQ)}"></div>
+    <div class="notes"><button class="nt newnote" data-newnote="1">${svg(UI.mais, 2.2)}<span>Nova anotação</span></button>${list.map(noteCard).join('')}</div>
+    ${!all.length ? `<p class="empty2">Escreva aqui ideias, listas e lembretes. Elas sincronizam com seus outros aparelhos.</p>` : !list.length ? `<p class="empty2">Nenhuma anotação encontrada.</p>` : ''}`;
+  const inp = document.getElementById('nsearch');
+  inp.oninput = () => { noteQ = inp.value; const pos = inp.selectionStart; renderNotas(); const n2 = document.getElementById('nsearch'); n2.focus(); n2.setSelectionRange(pos, pos); };
+}
+function noteForm(n, preset = {}){
+  const isNew = !n; n = n || {id: uid(), title: '', body: '', pin: false, cat: preset.cat || '', upd: Date.now()};
+  openSheet(`<h3>${isNew ? 'Nova anotação' : 'Anotação'}</h3>
+    <div class="field"><label for="n-t">Título</label><input type="text" id="n-t" value="${esc(n.title)}" placeholder="Opcional"></div>
+    <div class="field"><label for="n-b">Texto</label><textarea id="n-b" rows="8" placeholder="Escreva aqui">${esc(n.body)}</textarea></div>
+    <div class="row2"><div class="field"><label for="n-c">Categoria</label><select id="n-c"><option value="">Nenhuma</option>${S.cats.map(c => `<option value="${c.id}"${n.cat === c.id ? ' selected' : ''}>${esc(c.name)}</option>`).join('')}</select></div>
+      <div class="field"><span class="lbl">Fixar no topo</span><div class="seg"><button data-pin="0" class="${n.pin ? '' : 'on'}">Não</button><button data-pin="1" class="${n.pin ? 'on' : ''}">Sim</button></div></div></div>
+    <div class="actions">${isNew ? '<button class="btn" id="n-cancel">Cancelar</button>' : '<button class="btn danger" id="n-del">Excluir</button>'}<button class="btn primary" id="n-ok">Salvar</button></div>`);
+  const q = x => sheet.querySelector(x); let pin = !!n.pin;
+  sheet.querySelectorAll('[data-pin]').forEach(b => b.onclick = () => { pin = b.dataset.pin === '1'; sheet.querySelectorAll('[data-pin]').forEach(x => x.classList.toggle('on', x === b)); });
+  if (isNew) q('#n-cancel').onclick = closeSheet; else armDelete(q('#n-del'), () => { S.notes = S.notes.filter(x => x.id !== n.id); afterSave(); });
+  q('#n-ok').onclick = () => {
+    const t = q('#n-t').value.trim(), b = q('#n-b').value.replace(/\s+$/, '');
+    if (!t && !b){ if (isNew) closeSheet(); else { S.notes = S.notes.filter(x => x.id !== n.id); afterSave(); } return; }
+    Object.assign(n, {title: t, body: b, cat: q('#n-c').value, pin, upd: Date.now()});
+    S.notes = S.notes || []; if (isNew) S.notes.push(n); afterSave();
+  };
+}
+
+function settings(){
+  const f = {};
+  openSheet(`<h3>Ajustes</h3>
+    ${profileFields()}
+    ${metaFields()}
     <div class="field"><span class="lbl">Paleta de cores</span><div class="pals">${Object.entries(PALS).map(([k, v]) => `<button data-pal="${k}" class="${S.pal === k ? 'on' : ''}"><span class="sw">${v.prev.concat(v.cats.slice(0,4)).map(c => `<i style="background:${c}"></i>`).join('')}</span><b>${v.nome}</b></button>`).join('')}</div></div>
     <div class="field"><span class="lbl">Conta</span>${!cloudOn ? '<p class="note" style="margin:0">Modo local: os dados ficam só neste aparelho.</p>'
       : user ? `<div class="acct"><div><b>${esc(user.email)}</b><small id="s-sync">${SYNC_LABEL[syncState] + (syncErr ? ' · ' + syncErr : '')}</small></div><button class="fchip" id="s-syncnow">Sincronizar agora</button><button class="fchip" id="s-out">Sair</button></div>` : ''}</div>
     <div class="actions"><button class="btn danger" id="s-reset">Restaurar rotina inicial</button><button class="btn primary" id="s-ok">Pronto</button></div>`);
   if (sheet.querySelector('#s-syncnow')) sheet.querySelector('#s-syncnow').onclick = () => push().then(pull);
   if (sheet.querySelector('#s-out')) sheet.querySelector('#s-out').onclick = async () => { await push(); await sb.auth.signOut(); localStorage.removeItem('rotina-linked'); closeSheet(); };
-  sheet.querySelectorAll('[data-seq]').forEach(b => b.onclick = () => { S.seq = b.dataset.seq; sheet.querySelectorAll('[data-seq]').forEach(x => x.classList.toggle('on', x === b)); });
-  const r = sheet.querySelector('#s-meta');
-  r.oninput = () => { sheet.querySelector('#s-val').textContent = r.value + '%'; };
-  sheet.querySelector('#s-ok').onclick = () => { S.meta = +r.value; S.nome = sheet.querySelector('#s-nome').value.trim(); afterSave(); };
+  wireProfile(f); wireMeta(f);
+  sheet.querySelector('#s-ok').onclick = () => { applyProfile(f); applyMeta(f); afterSave(); };
   sheet.querySelectorAll('[data-pal]').forEach(b => b.onclick = () => { setPal(b.dataset.pal); save(); render(); sheet.querySelectorAll('[data-pal]').forEach(x => x.classList.toggle('on', x === b)); });
-  armDelete(sheet.querySelector('#s-reset'), () => { const pal = S.pal, nome = S.nome; S = seed(); S.nome = nome; S.pal = pal; S.cats.forEach(c => c.color = seedColor(c.id)); afterSave(); });
+  armDelete(sheet.querySelector('#s-reset'), () => { const pal = S.pal, keep = {nome: S.nome, foto: S.foto, appNome: S.appNome, notes: S.notes}; S = seed(); Object.assign(S, keep); S.pal = pal; S.cats.forEach(c => c.color = seedColor(c.id)); afterSave(); });
 }
 
 render();
