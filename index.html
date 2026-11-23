@@ -16,7 +16,7 @@
 <script src="config.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 /* Layout: abas Hoje e Agenda; blocos coloridos por categoria; barra de abas embaixo (vertical) ou trilho à esquerda (horizontal) */
 :root{
@@ -593,7 +593,7 @@ body::after{content:"";position:fixed;inset:-20% -10% auto -10%;height:120%;z-in
 :root,:root[data-pal]{
   --bg:#F6F0E6; --panel:#EFE6D7; --panel2:#E8DCC9; --surface:#FBF7F0; --line:#E2D4BF; --soft:#EADFCC;
   --ink:#2A2019; --deep:#2A2019; --muted:#8A7963; --accent:#C9692A; --orange:#C9692A; --forest:#2F4630; --good:#4F7A3E; --bad:#B8432F; --blue:#5767C9;
-  --font-display:"Newsreader",Georgia,"Times New Roman",serif;
+  --font-display:"Outfit","SF Pro Display",-apple-system,"Segoe UI",system-ui,sans-serif;
   --font-body:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter","Segoe UI",system-ui,sans-serif;
   --font-mono:"DM Mono","SF Mono",ui-monospace,Menlo,monospace;
   --shadow:0 1px 0 rgba(255,255,255,.6) inset,0 1px 2px rgba(60,40,20,.05);
@@ -613,7 +613,7 @@ body::after{content:"";position:fixed;inset:-20% -10% auto -10%;height:120%;z-in
 }
 body{background:var(--bg);background-attachment:scroll;font-family:var(--font-body);color:var(--ink);letter-spacing:0}
 body::before,body::after,.orbs{display:none}
-h1,h2,h3{font-family:var(--font-display);font-weight:400;letter-spacing:-.01em}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;letter-spacing:-.02em}
 .mono{font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.06em;font-size:11px;font-weight:500}
 .content,.content.ag{max-width:1400px;padding:calc(env(safe-area-inset-top) + 14px) calc(env(safe-area-inset-right) + 14px) calc(env(safe-area-inset-bottom) + var(--nav-h) + 34px) calc(env(safe-area-inset-left) + 14px)}
 
@@ -661,7 +661,7 @@ h1,h2,h3{font-family:var(--font-display);font-weight:400;letter-spacing:-.01em}
 .ph{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:4px 0 16px}
 .ph .crumb{color:var(--muted);margin-bottom:6px;display:block}
 .ph h1{font-size:34px;line-height:1.05;display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px}
-.ph h1 em{font-size:17px;color:var(--muted);font-style:italic}
+.ph h1 em{font-size:16px;color:var(--muted);font-style:normal;font-weight:400;letter-spacing:0}
 .ph .acts{display:flex;gap:8px;align-items:center;flex:none}
 .rbtn{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;color:var(--ink);padding:0}
 .rbtn svg{width:18px;height:18px}
@@ -690,17 +690,18 @@ h1,h2,h3{font-family:var(--font-display);font-weight:400;letter-spacing:-.01em}
   :root,:root[data-pal]{--side-w:224px; --nav-h:0px}
   .side{top:calc(env(safe-area-inset-top) + 12px);bottom:calc(env(safe-area-inset-bottom) + 12px);left:calc(env(safe-area-inset-left) + 12px);right:auto;width:var(--side-w);border-radius:22px;padding:16px 10px 12px;display:flex;flex-direction:column;background:var(--panel);box-shadow:none;overflow-y:auto;scrollbar-width:none}
   .side .brand{display:flex;align-items:center;gap:9px;padding:2px 8px 12px;font-family:var(--font-display);font-size:24px;line-height:1}
-  .side .brand em{color:var(--accent)}
+  .side .brand em{color:var(--accent);font-style:normal}
+  .side .brand{font-weight:600;letter-spacing:-.02em}
   .side .brand .logo{width:30px;height:30px;border-radius:50%;background:var(--forest);color:#F6F0E6;display:grid;place-items:center;flex:none}
   .side .brand .logo svg{width:17px;height:17px}
   .side .who{display:flex;align-items:center;gap:8px;padding:0 8px 14px}
   .side .who .av{width:38px;height:38px;border-radius:50%;background:var(--orange);color:#fff;display:grid;place-items:center;font-family:var(--font-display);font-size:19px;box-shadow:0 0 0 3px var(--panel),0 0 0 4px var(--accent)}
   .side .sidelbl{display:block;color:var(--muted);padding:6px 10px 8px;border-top:1px solid var(--line)}
   .side .navs{flex-direction:column;justify-content:flex-start;gap:2px}
-  .nv{flex:none;flex-direction:row;gap:11px;padding:9px 10px;border-radius:12px;font-family:var(--font-display);font-size:17px;font-weight:400;color:var(--ink)}
+  .nv{flex:none;flex-direction:row;gap:11px;padding:9px 10px;border-radius:12px;font-family:var(--font-display);font-size:15.5px;font-weight:500;color:var(--ink)}
   .nv .ni{color:var(--muted)}
   .nv .ni svg{width:18px;height:18px}
-  .nv.on{background:var(--surface);font-style:italic}
+  .nv.on{background:var(--surface);font-weight:600}
   .nv .bdg{position:static;margin-left:auto;font-size:10px;padding:3px 7px}
   .side .foot{display:flex;align-items:center;gap:8px;margin-top:auto;padding-top:12px}
   .side .foot .nv{flex:1}
@@ -726,9 +727,9 @@ h1,h2,h3{font-family:var(--font-display);font-weight:400;letter-spacing:-.01em}
 .banner{position:relative;overflow:hidden;isolation:isolate;border-radius:24px;background:var(--panel);border:1px solid var(--line);padding:18px 18px 16px;min-height:200px}
 .banner .scene{position:absolute;right:0;top:0;bottom:0;width:78%;z-index:-1;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 46%);mask-image:linear-gradient(90deg,transparent 0,#000 46%);opacity:.5}
 .banner .scene svg{width:100%;height:100%}
-.banner .crumb{color:var(--muted);display:block;padding-right:92px;line-height:1.5}
+.banner .crumb{color:var(--muted);display:block;padding-right:142px;line-height:1.5}
 .banner h1{font-size:36px;line-height:1.05;margin:12px 0 10px;max-width:15ch}
-.banner h1 em{font-style:italic}
+.banner h1 em{font-style:normal;color:var(--accent)}
 .banner .sum{color:var(--ink);max-width:64ch;line-height:1.6;font-size:11px}
 .banner .quick{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
 .banner .quick .pill-btn{background:color-mix(in srgb,var(--surface) 80%,transparent);border-style:dashed}
@@ -783,7 +784,7 @@ h1,h2,h3{font-family:var(--font-display);font-weight:400;letter-spacing:-.01em}
 .mcal .ft svg{width:13px;height:13px}
 
 .counts{display:flex;gap:16px;flex-wrap:wrap;margin:12px 0 10px}
-.counts div b{display:block;font-family:var(--font-display);font-size:26px;line-height:1;font-weight:400}
+.counts div b{display:block;font-family:var(--font-display);font-size:26px;line-height:1;font-weight:500}
 .counts div small{display:flex;align-items:center;gap:5px;color:var(--muted);margin-top:4px}
 .counts div small i{width:6px;height:6px;border-radius:50%;display:inline-block}
 .scrolly{overflow-y:auto;max-height:260px;margin:0 -6px;padding:0 6px;scrollbar-width:thin}
@@ -814,18 +815,36 @@ h1,h2,h3{font-family:var(--font-display);font-weight:400;letter-spacing:-.01em}
 .catrow .ci img{width:24px;height:24px;border-radius:6px}
 .catrow .ci .lineic svg{width:20px;height:20px;margin:0}
 .catrow .cx{flex:1;min-width:0}
-.catrow .cx b{display:block;font-family:var(--font-display);font-size:17px;font-weight:400;line-height:1.15}
+.catrow .cx b{display:block;font-family:var(--font-display);font-size:17px;font-weight:500;line-height:1.15}
 .catrow .cx small{color:var(--muted)}
 .catrow .pb{display:block;height:4px;border-radius:4px;background:var(--panel2);overflow:hidden;margin-top:6px}
 .catrow .pb i{display:block;height:100%;border-radius:4px}
 .catrow .cn2{font-family:var(--font-mono);font-size:12px;color:var(--muted)}
 .hc.list{min-height:0}
+.home .o-cats{grid-column:1/-1}
+.hh2{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin:2px 2px 10px}
+.hh2 h2{font-size:22px}
+.hh2 .mono{color:var(--muted)}
+.home .blocks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.home .block{min-height:150px;border-radius:20px;padding:14px;box-shadow:none;background:var(--c);color:var(--fg,#fff)}
+.home .block .art{background:color-mix(in srgb,currentColor 16%,transparent);width:52px;height:52px;border-radius:16px}
+.home .block .art svg{width:32px;height:32px}
+.home .block .cnt{background:rgba(255,255,255,.92);color:#2A2019;font-weight:700;top:14px;right:14px}
+.home .block .nm{font-family:var(--font-display);font-weight:600;font-size:17px}
+.home .block .nx{font-weight:500}
+.home .block .mini{background:color-mix(in srgb,currentColor 22%,transparent)}
+.home .block .mini i{background:currentColor}
+.home .block.add{background:transparent;border:1.5px dashed var(--line);color:var(--muted)}
+.home .block.add .ic{background:var(--panel)}
+@media (min-width:560px){ .home .blocks{grid-template-columns:repeat(3,minmax(0,1fr))} }
+@media (min-width:1100px){ .home .blocks{grid-template-columns:repeat(7,minmax(0,1fr))} .home .block{min-height:170px} }
+@media (orientation:landscape) and (max-height:500px){ .home .blocks{grid-template-columns:repeat(4,minmax(0,1fr))} .home .block{min-height:130px} }
 .empty2{color:var(--muted);font-size:13px;padding:14px 0;text-align:center}
 
 /* ---------- Tarefas: quadro da semana ---------- */
 .tbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
 .wnav{display:flex;align-items:center;gap:6px}
-.wnav b{font-family:var(--font-display);font-size:20px;font-weight:400;min-width:0}
+.wnav b{font-family:var(--font-display);font-size:20px;font-weight:500;min-width:0}
 .wnav .rbtn{width:32px;height:32px}
 .wnav .rbtn svg{width:15px;height:15px}
 .tbar .sp{flex:1}
@@ -898,7 +917,7 @@ h1,h2,h3{font-family:var(--font-display);font-weight:400;letter-spacing:-.01em}
 .mrow{padding:10px 0;border-top:1px solid var(--line)}
 .mrow:first-of-type{border-top:0}
 .mrow .r1{display:flex;align-items:center;gap:8px}
-.mrow .r1 b{font-family:var(--font-display);font-weight:400;font-size:17px;flex:1;min-width:0}
+.mrow .r1 b{font-family:var(--font-display);font-weight:500;font-size:17px;flex:1;min-width:0}
 .mrow .r1 .mono{color:var(--muted)}
 .mrow .r1 .pc{font-family:var(--font-mono);font-size:13px;font-weight:600;min-width:38px;text-align:right}
 .mrow .pb2{height:7px;border-radius:7px;background:var(--panel2);overflow:hidden;margin-top:7px}
@@ -935,8 +954,8 @@ h1,h2,h3{font-family:var(--font-display);font-weight:400;letter-spacing:-.01em}
 .cd.sel:not(.today) b{color:var(--ink)}
 .cd.sel:not(.today) .cbar i{background:var(--forest)!important}
 .cal-legend i.bar{background:var(--forest)}
-.dh .dn b{font-family:var(--font-display);font-weight:400}
-.dh h3{font-family:var(--font-display);font-weight:400;font-size:18px}
+.dh .dn b{font-family:var(--font-display);font-weight:500}
+.dh h3{font-family:var(--font-display);font-weight:600;font-size:18px}
 .dsec.is-today .dn b{color:var(--accent)}
 .month{font-family:var(--font-mono);font-weight:500;font-size:11px}
 .item{background:var(--surface)}
@@ -944,7 +963,7 @@ h1,h2,h3{font-family:var(--font-display);font-weight:400;letter-spacing:-.01em}
 
 .band,.band.aura{background:var(--c);border-radius:24px;box-shadow:none;color:var(--fg,#fff)}
 .band::before,.band::after{display:none}
-.band h1{font-size:36px;font-weight:400}
+.band h1{font-size:36px;font-weight:600}
 :root[data-theme="dark"] .banner .scene{opacity:.45}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .banner .scene{opacity:.45}}
 .band .sub{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-weight:500}
@@ -952,17 +971,17 @@ h1,h2,h3{font-family:var(--font-display);font-weight:400;letter-spacing:-.01em}
 .band .hbar{background:rgba(255,255,255,.3)}
 .band .hbar i{background:rgba(255,255,255,.95)}
 .bandart{background:rgba(255,255,255,.2)}
-.gt b{font-family:var(--font-display);font-weight:400}
-.cal-h h2{font-weight:400}
+.gt b{font-family:var(--font-display);font-weight:600}
+.cal-h h2{font-weight:600}
 .item b,.ncard b,.an b,.av b,.cn b,.menu button,.acct b{font-weight:600}
 .pmain b{font-size:16px}
 .pmain b{font-weight:500}
 
 .kpi{border-radius:22px;min-height:118px;display:flex;flex-direction:column;justify-content:space-between}
 .kpi small{font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:500}
-.kpi b{font-family:var(--font-display);font-weight:400;letter-spacing:-.02em}
+.kpi b{font-family:var(--font-display);font-weight:500;letter-spacing:-.02em}
 .kpi.c-orange small,.kpi.c-green small,.kpi.c-orange b span,.kpi.c-green b span{color:inherit;opacity:.8}
-.sec-h h2{font-size:22px;font-weight:400}
+.sec-h h2{font-size:22px;font-weight:600}
 .sec-h small{font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:500}
 .cp{font-family:var(--font-mono);font-size:14px}
 .timebtn{background:var(--surface)}
@@ -1008,12 +1027,49 @@ h1,h2,h3{font-family:var(--font-display);font-weight:400;letter-spacing:-.01em}
   .hgrid .hd{font-size:8.5px}
   .hweek .hh{flex-wrap:wrap}
   .home .o-tasks{order:-1}
-  .home .banner{order:-2}
+  .home .o-cats{order:-2}
+  .home .banner{order:-3}
 }
 @media (max-width:380px){ .ph h1{font-size:30px} }
 .bacts{position:absolute;top:12px;right:12px;gap:8px}
 .hgrid .hd svg{width:12px;height:12px;margin:0 auto;color:var(--accent)}
 
+
+/* ---------- Perfil, meta editável e anotações ---------- */
+[hidden]{display:none!important}
+button.av{border:0;padding:0;overflow:hidden;cursor:pointer}
+.av img,.av2 img,.pfprev img{width:100%;height:100%;object-fit:cover;display:block}
+.av2{overflow:hidden;padding:0;background:var(--orange);color:#fff;font-family:var(--font-display);font-weight:600}
+.namebtn{border:0;background:none;padding:0;font:inherit;color:inherit;cursor:pointer;text-decoration:underline dotted 2px;text-decoration-color:color-mix(in srgb,var(--accent) 45%,transparent);text-underline-offset:6px}
+.statbtn{border:0;background:none;padding:0;color:inherit;text-align:left;cursor:pointer}
+.statbtn b{display:flex!important;align-items:center;gap:4px}
+.statbtn b svg{width:11px;height:11px;opacity:.7}
+.pfrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.pfprev{width:64px;height:64px;border-radius:50%;overflow:hidden;background:var(--orange);color:#fff;display:grid;place-items:center;font-family:var(--font-display);font-size:28px;font-weight:600;flex:none}
+.pfprev svg{width:28px;height:28px}
+.pfrow label.pill-btn{cursor:pointer}
+.field textarea{border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:10px 12px;width:100%;resize:vertical;font:inherit;font-size:16px;line-height:1.45;color:var(--ink);min-height:160px}
+.field select{appearance:auto}
+.nsearch{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 14px;min-width:0;width:240px;max-width:100%;color:var(--ink)}
+.notes{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;align-items:start}
+.nt{display:flex;flex-direction:column;gap:6px;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:18px;padding:14px 14px 12px;color:var(--ink);min-height:120px;border-top:4px solid var(--c,var(--line))}
+.nt b{font-family:var(--font-display);font-weight:600;font-size:17px;line-height:1.2}
+.nt p{margin:0;color:var(--ink);opacity:.85;font-size:13.5px;line-height:1.45;white-space:pre-wrap;display:-webkit-box;-webkit-line-clamp:8;-webkit-box-orient:vertical;overflow:hidden}
+.nt .nf{margin-top:auto;color:var(--muted);display:flex;align-items:center;gap:5px;padding-top:6px}
+.nt .nf i{width:7px;height:7px;border-radius:50%;background:var(--c)}
+.nt .pinic{margin-left:auto;color:var(--accent)}
+.nt .pinic svg{width:13px;height:13px}
+.nt.pin{background:color-mix(in srgb,var(--orange) 7%,var(--surface))}
+.nt.newnote{align-items:center;justify-content:center;border:1.5px dashed var(--line);background:transparent;color:var(--muted);font-weight:600}
+.nt.newnote svg{width:22px;height:22px}
+.nmini{display:flex;flex-direction:column;margin:8px 0 12px}
+.nrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;border:0;border-top:1px solid var(--line);background:none;padding:9px 0;text-align:left;color:var(--ink)}
+.nrow:first-child{border-top:0}
+.nrow b{font-weight:600;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nrow small{grid-column:1;color:var(--muted);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nrow .mono{grid-column:2;grid-row:1;color:var(--muted)}
+.bacts .rbtn.av2{font-size:17px}
+@media (max-width:560px){ .home .o-notes{order:0} .nsearch{width:100%} }
 :focus-visible{outline-color:var(--ink)}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
@@ -1024,12 +1080,13 @@ h1,h2,h3{font-family:var(--font-display);font-weight:400;letter-spacing:-.01em}
   <section class="screen" id="scr-cat" hidden></section>
   <section class="screen" id="scr-tarefas" hidden></section>
   <section class="screen" id="scr-habitos" hidden></section>
+  <section class="screen" id="scr-notas" hidden></section>
   <section class="screen" id="scr-agenda" hidden></section>
   <section class="screen" id="scr-analise" hidden></section>
 </div>
 <nav class="side" aria-label="Navegação">
-  <div class="brand"><span class="logo" id="logo-ic"></span><span>Minha <em>Rotina</em></span></div>
-  <div class="who"><span class="av" id="av"></span><button class="rbtn go" id="fab" aria-label="Adicionar" title="Adicionar"><span id="fab-ic"></span></button></div>
+  <div class="brand"><span class="logo" id="logo-ic"></span><span id="brand-nm">Minha <em>Rotina</em></span></div>
+  <div class="who"><button class="av" id="av" data-profile="1" aria-label="Seu perfil e foto"></button><button class="rbtn go" id="fab" aria-label="Adicionar" title="Adicionar"><span id="fab-ic"></span></button></div>
   <span class="sidelbl mono">Sua rotina</span>
   <div class="navs" id="navs"></div>
   <div class="foot"><button class="nv" data-settings="1"><span class="ni" id="ic-aj"></span>Ajustes</button></div>
@@ -1157,7 +1214,7 @@ function seed(){
   const t = (cat,name,o={}) => ({id:uid(),cat,name,freq:'diaria',days:[],date:'',times:1,hora:'',nota:'',subs:[],...o});
   const uteis = [1,2,3,4,5];
   const s = {
-    meta: 80, demo: false, hist: {}, created: TODAY, pal: 'terra', v5: 1,
+    meta: 50, seq: 'meta', demo: false, hist: {}, created: TODAY, pal: 'terra', v5: 1, v6: 1,
     cats: [c('exe','Exercícios','halter',seedColor('exe')), c('sau','Rotina de saúde','coracao',seedColor('sau')), c('edu','Educação','graduacao',seedColor('edu')),
            c('tra','Trabalho','maleta',seedColor('tra')), c('ali','Alimentação','talher',seedColor('ali')), c('imp','Tarefas não regulares','raio',seedColor('imp'))],
     tasks: [
@@ -1201,6 +1258,7 @@ function migrate(){
   if (!PALS[S.pal]){ const old = OLD_PALS[S.pal] || []; S.pal = 'sol'; S.cats.forEach(c => { const i = old.indexOf(c.color); if (i >= 0) c.color = PALS.sol.cats[i]; }); }
   S.cats.forEach(c => { if (OLD_COLORS.includes(c.color)) c.color = seedColor(c.id); if (OLD_ART[c.art]) c.art = OLD_ART[c.art]; });
   if (!S.v5){ S.v5 = 1; if (S.pal !== 'terra') setPal('terra'); }
+  if (!S.v6){ S.v6 = 1; S.seq = 'meta'; S.meta = 50; }
   document.documentElement.dataset.pal = S.pal;
 }
 migrate();
@@ -1345,10 +1403,23 @@ function dayStats(k, filter = () => true){
   const sum = ts.reduce((a, t) => a + frac(t, k), 0);
   return { n: ts.length, sum, done: ts.filter(t => frac(t, k) >= 1).length, pct: ts.length ? sum / ts.length * 100 : null };
 }
-const hit = k => { const p = dayStats(k).pct; return p !== null && p >= S.meta; };
+// Meta do dia: fixa (escolhida pelo usuário) ou automática (acompanha a média dos últimos 14 dias)
+let metaCache = null;
+function autoMeta(){
+  const start = S.created || TODAY, ps = [];
+  for (let i = 1; i <= 14; i++){ const k = addDays(TODAY, -i); if (k < start) break; const p = dayStats(k).pct; if (p !== null) ps.push(p); }
+  if (!ps.length) return S.meta;
+  const avg = ps.reduce((a, x) => a + x, 0) / ps.length;
+  return Math.min(90, Math.max(30, Math.round(avg / 5) * 5));
+}
+const metaOf = () => S.metaAuto ? (metaCache ?? (metaCache = autoMeta())) : S.meta;
+const hit = k => { const p = dayStats(k).pct; return p !== null && p >= metaOf(); };
+// Dia que conta na sequência: com a meta diária batida (padrão, 50%) ou com pelo menos uma tarefa marcada
+const seqMode = () => S.seq || 'meta';
+const seqDay = k => seqMode() === 'meta' ? hit(k) : dayStats(k).sum > 0;
 function streak(){
-  let n = hit(TODAY) ? 1 : 0, k = addDays(TODAY, -1);
-  for (let i = 0; i < 730 && hit(k); i++){ n++; k = addDays(k, -1); }
+  let n = seqDay(TODAY) ? 1 : 0, k = addDays(TODAY, -1);
+  for (let i = 0; i < 730 && seqDay(k); i++){ n++; k = addDays(k, -1); }
   return n;
 }
 const byHora = (a, b) => (a.hora || '99').localeCompare(b.hora || '99');
@@ -1377,8 +1448,10 @@ Object.assign(UI, {
   folha:'M5 19c0-8 5-14 14-14 0 9-6 14-14 14zM5 19l7-7',
   estrela:'M12 4l2.3 4.8 5.2.7-3.8 3.6.9 5.2L12 15.8 7.4 18.3l.9-5.2L4.5 9.5l5.2-.7z',
   sub:'M5 6h14M9 12h10M9 18h10M5 12h.01M5 18h.01',
-  dir:'M9 5l7 7-7 7'
+  dir:'M9 5l7 7-7 7',
+  nota:'M6 3h9l4 4v14H6zM14 3v5h5M9 12h7M9 16h5'
 });
+function brandHtml(){ const n = (S.appNome || '').trim(); if (!n) return 'Minha <em>Rotina</em>'; const i = n.lastIndexOf(' '); return i > 0 ? `${esc(n.slice(0, i))} <em>${esc(n.slice(i + 1))}</em>` : esc(n); }
 const greet = () => { const h = new Date().getHours(); return h < 12 ? 'Bom dia' : h < 18 ? 'Boa tarde' : 'Boa noite'; };
 function userName(){
   if (S.nome) return S.nome;
@@ -1387,7 +1460,7 @@ function userName(){
   return n ? cap(n.toLowerCase()) : '';
 }
 function pageHead(crumb, title, sub, extra = ''){
-  return `<div class="ph"><div><span class="crumb mono">Minha rotina / ${crumb}</span><h1>${title}${sub ? `<em>${sub}</em>` : ''}</h1></div>
+  return `<div class="ph"><div><span class="crumb mono">${esc(S.appNome || 'Minha rotina')} / ${crumb}</span><h1>${title}${sub ? `<em>${sub}</em>` : ''}</h1></div>
     <div class="acts">${extra}<button class="rbtn go m-only" data-add="1" aria-label="Adicionar">${svg(UI.mais, 2.4)}</button><button class="rbtn m-only" data-settings="1" aria-label="Ajustes">${svg(UI.ajustes)}</button></div></div>`;
 }
 const longDate = k => { const d = fromKey(k); return `${DOWL[d.getDay()]}, ${d.getDate()} de ${MESL[d.getMonth()].toLowerCase()}`; };
@@ -1436,7 +1509,7 @@ function lineChart(n){
   const ys = ks.map(k => { if (k < start) return null; const p = dayStats(k).pct; return p === null ? null : H - P - p / 100 * (H - 2 * P); });
   const x = i => (i / (n - 1) * W).toFixed(1);
   const pts = ys.map((y, i) => y === null ? null : [x(i), y.toFixed(1)]).filter(Boolean);
-  const my = (H - P - S.meta / 100 * (H - 2 * P)).toFixed(1);
+  const my = (H - P - metaOf() / 100 * (H - 2 * P)).toFixed(1);
   let body = `<line class="base" x1="0" x2="${W}" y1="${H - P}" y2="${H - P}"/><line class="mt" x1="0" x2="${W}" y1="${my}" y2="${my}"/>`;
   if (pts.length){
     const line = pts.length === 1 ? `M${Math.max(0, pts[0][0] - 12)} ${pts[0][1]} L${pts[0][0]} ${pts[0][1]}` : 'M' + pts.map(p => p.join(' ')).join(' L');
@@ -1474,11 +1547,12 @@ function trowHtml(t, k, chip){
 function renderHoje(){
   const d = fromKey(sel), isToday = sel === TODAY, dayWord = isToday ? 'hoje' : 'neste dia';
   const st = dayStats(sel), sk = streak(), best = bestStreak();
-  const need = Math.max(0, Math.ceil(S.meta * st.n / 100 - st.sum - 1e-9));
-  const prev = hit(TODAY) ? sk - 1 : sk;
+  const need = Math.max(0, Math.ceil(metaOf() * st.n / 100 - st.sum - 1e-9));
+  const prev = seqDay(TODAY) ? sk - 1 : sk, uma = seqMode() === 'uma';
   let msg;
   if (!isToday) msg = sel > TODAY ? 'Dia futuro: dá para ver e editar as tarefas.' : 'Você pode corrigir o que esqueceu de marcar neste dia.';
-  else if (hit(TODAY)) msg = `Meta de hoje batida! Sequência de ${plural(sk, 'dia', 'dias')}.`;
+  else if (seqDay(TODAY)) msg = uma ? `Hoje já conta! Sequência de ${plural(sk, 'dia', 'dias')}.` : `Meta de hoje batida! Sequência de ${plural(sk, 'dia', 'dias')}.`;
+  else if (uma) msg = prev > 0 ? `Marque uma tarefa hoje para manter a sequência de ${plural(prev, 'dia', 'dias')}.` : 'Marque uma tarefa hoje para começar uma sequência.';
   else if (prev > 0) msg = `Faltam ${plural(need, 'tarefa', 'tarefas')} para manter a sequência.`;
   else msg = `Conclua ${plural(need, 'tarefa', 'tarefas')} hoje para começar uma sequência.`;
 
@@ -1493,8 +1567,18 @@ function renderHoje(){
   const done7 = act.reduce((a, x) => a + x.done, 0), meta7 = act.filter(x => x.hit).length;
   const bars = wk.map(x => `<span class="b${x.hit ? ' hit' : ''}${x.k === TODAY ? ' now' : ''}" title="${dShort(x.k)}: ${x.none ? 'sem dados' : Math.round(x.pct) + '%'}"><i style="--p:${x.none ? 0 : Math.max(4, x.pct)}%"></i><span>${DOW[fromKey(x.k).getDay()].slice(0, 3)}</span></span>`).join('');
 
-  const cats = S.cats.map(c => { const s = dayStats(sel, t => t.cat === c.id);
-    return `<button class="catrow" data-open="${c.id}"><span class="ci" style="background:${c.color};color:${inkFor(c.color)}">${catArt(c)}</span><span class="cx"><b>${esc(c.name)}</b><span class="pb"><i style="width:${s.pct || 0}%;background:${c.color}"></i></span></span><span class="cn2 num">${s.n ? (s.done === s.n ? svg(UI.check, 2.6).replace('<svg', '<svg width="16" height="16"') : `${s.done}/${s.n}`) : '—'}</span></button>`; }).join('');
+  const blocks = S.cats.map(c => {
+    const s = dayStats(sel, t => t.cat === c.id);
+    const next = S.tasks.filter(t => t.cat === c.id && scheduled(t, sel) && frac(t, sel) < 1).sort(byHora)[0];
+    const all = s.n && s.done === s.n;
+    return `<button class="block" data-open="${c.id}" style="--c:${c.color};--fg:${inkFor(c.color)}" aria-label="${esc(c.name)}, ${s.done} de ${s.n} feitas">
+      <span class="art">${catArt(c)}</span>
+      <span class="cnt num">${all ? svg(UI.check, 3) : `${s.done}/${s.n}`}</span>
+      <span class="nm">${esc(c.name)}</span>
+      <span class="nx">${!s.n ? 'Nada neste dia' : all ? 'Tudo feito' : `Próxima: ${esc(next.name)}`}</span>
+      <span class="mini"><i style="width:${s.pct || 0}%"></i></span>
+    </button>`;
+  }).join('') + `<button class="block add" data-newcat="1"><span class="ic">${svg(UI.mais)}</span><span style="font-weight:600">Nova categoria</span></button>`;
 
   const upc = [];
   for (let i = 0; i < 21 && upc.length < 6; i++){
@@ -1510,14 +1594,15 @@ function renderHoje(){
   document.getElementById('scr-hoje').innerHTML = `<div class="home">
     <div class="banner">
       <div class="scene">${SCENE}</div>
-      <div class="bacts m-only"><button class="rbtn go" data-add="1" aria-label="Adicionar">${svg(UI.mais, 2.4)}</button><button class="rbtn" data-settings="1" aria-label="Ajustes">${svg(UI.ajustes)}</button></div>
-      <span class="crumb mono">Minha rotina / Início · ${longDate(sel)}</span>
-      <h1>${isToday ? `${greet()}${nome ? `, <em>${esc(nome)}</em>` : ''}` : `<em>${cap(longDate(sel))}</em>`}</h1>
+      <div class="bacts m-only"><button class="rbtn av2" data-profile="1" aria-label="Seu perfil e foto">${avatarHtml()}</button><button class="rbtn go" data-add="1" aria-label="Adicionar">${svg(UI.mais, 2.4)}</button><button class="rbtn" data-settings="1" aria-label="Ajustes">${svg(UI.ajustes)}</button></div>
+      <span class="crumb mono">${esc(S.appNome || 'Minha rotina')} / Início · ${longDate(sel)}</span>
+      <h1>${isToday ? `${greet()}, <button class="namebtn" data-profile="1" aria-label="Mudar seu nome"><em>${nome ? esc(nome) : 'seu nome'}</em></button>` : `<em>${cap(longDate(sel))}</em>`}</h1>
       <p class="sum mono">Você tem ${plural(st.n, 'tarefa', 'tarefas')} para ${dayWord}, ${st.done} já ${st.done === 1 ? 'feita' : 'feitas'}${sp.length ? ` e ${plural(sp.length, 'compromisso', 'compromissos')}` : ''}.</p>
       <div class="quick">${!isToday ? `<button class="pill-btn" data-gotoday="1">${svg(UI.voltar, 2.4)}Voltar para hoje</button>` : ''}
         <button class="pill-btn" data-qadd="task">${svg(UI.mais, 2.4)}Tarefa</button><button class="pill-btn" data-addon="${sel}">${svg(UI.mais, 2.4)}Compromisso</button><button class="pill-btn" data-newcat="1">${svg(UI.mais, 2.4)}Categoria</button></div>
       ${syncChip()}
     </div>
+    <section class="o-cats"><div class="hh2"><h2>Categorias</h2><span class="mono">Toque para abrir</span></div><div class="blocks">${blocks}</div></section>
     <div class="hc c-orange o-rit">
       <div class="hh"><h2>Ritmo</h2><button class="mono" data-tab="analise">Últimos 7 dias ${svg(UI.seta, 2.2)}</button></div>
       <div class="rbody">
@@ -1534,7 +1619,7 @@ function renderHoje(){
       <div class="hh"><h2>Sequência</h2><span class="mono">Últimos 30 dias</span></div>
       <div class="big num" style="margin-top:12px">${sk}<small>${sk === 1 ? 'dia seguido' : 'dias seguidos'}</small></div>
       ${lineChart(30)}
-      <div class="stats"><div><b class="num">${best}</b><small>recorde</small></div><div><b class="num">${S.meta}%</b><small>meta do dia</small></div><div><b class="num">${Math.round(dayStats(TODAY).pct || 0)}%</b><small>hoje</small></div></div>
+      <div class="stats"><div><b class="num">${best}</b><small>recorde</small></div><button class="statbtn" data-editmeta="1" aria-label="Mudar a meta do dia"><b class="num">${metaOf()}%${svg(UI.lapis, 2.2)}</b><small>${S.metaAuto ? 'meta automática' : 'meta do dia'}</small></button><div><b class="num">${Math.round(dayStats(TODAY).pct || 0)}%</b><small>hoje</small></div></div>
       <div class="note2">${svg(UI.estrela, 2)}<span>${msg}</span></div>
     </div>
     <div class="o-cal">${miniCal()}</div>
@@ -1548,9 +1633,10 @@ function renderHoje(){
       </div>
       <div class="scrolly${sel > TODAY ? ' ro' : ''}">${listHtml}</div>
     </div>
-    <div class="hc list o-cats">
-      <div class="hh"><h2>Categorias</h2><button class="tag-btn" data-newcat="1">Nova</button></div>
-      <div style="margin-top:8px">${cats}</div>
+    <div class="hc list o-notes">
+      <div class="hh"><h2>Anotações</h2><button class="tag-btn" data-tab="notas">Ver todas</button></div>
+      <div class="nmini">${notesSorted().slice(0, 3).map(n => `<button class="nrow" data-note="${n.id}"><b>${esc(n.title || n.body.split('\n')[0])}</b><small>${esc(n.title ? n.body.split('\n')[0] : '')}</small><span class="mono">${n.pin ? '★ ' : ''}${fmtWhen(n.upd)}</span></button>`).join('') || '<div class="empty2">Nenhuma anotação ainda.</div>'}</div>
+      <button class="pill-btn dash" data-newnote="1" style="margin-top:auto;align-self:flex-start">${svg(UI.mais, 2.4)}Nova anotação</button>
     </div>
     <div class="hc list o-next">
       <div class="hh"><h2>Compromissos</h2><button class="tag-btn" data-tab="agenda">Agenda</button></div>
@@ -1764,7 +1850,7 @@ function monthGrid(){
     const p = k <= TODAY && !before ? Math.round(dayStats(k).pct || 0) : null;
     const late = k < TODAY && pend.length;
     cells += `<button class="cd${inM ? '' : ' out'}${k === TODAY ? ' today' : ''}${k === agSel ? ' sel' : ''}${late ? ' late' : ''}" data-calday="${k}" aria-label="${d.getDate()} de ${MESL[d.getMonth()]}${pend.length ? `, ${plural(pend.length,'pendente','pendentes')}` : ''}">
-      <b class="num">${d.getDate()}</b><span class="dots">${dots}</span>${p !== null && inM ? `<span class="cbar"><i style="width:${p}%;background:${p >= S.meta ? 'var(--good)' : 'var(--accent)'}"></i></span>` : ''}</button>`;
+      <b class="num">${d.getDate()}</b><span class="dots">${dots}</span>${p !== null && inM ? `<span class="cbar"><i style="width:${p}%;background:${p >= metaOf() ? 'var(--good)' : 'var(--accent)'}"></i></span>` : ''}</button>`;
     k = addDays(k, 1);
   }
   return `<div class="cal">
@@ -1877,7 +1963,7 @@ function periodStats(n){
 }
 function bestStreak(){
   let best = 0, cur = 0, k = S.created || TODAY;
-  for (let i = 0; i < 1000 && k <= TODAY; i++){ if (hit(k)) { cur++; best = Math.max(best, cur); } else if (k !== TODAY) cur = 0; k = addDays(k, 1); }
+  for (let i = 0; i < 1000 && k <= TODAY; i++){ if (seqDay(k)) { cur++; best = Math.max(best, cur); } else if (k !== TODAY) cur = 0; k = addDays(k, 1); }
   return best;
 }
 function timeChart(keys){
@@ -1950,21 +2036,25 @@ document.addEventListener('pointermove', showTip);
 document.addEventListener('pointerdown', showTip);
 
 /* ---------- Render geral ---------- */
-const NAV = [['hoje', 'Início', 'casa'], ['tarefas', 'Tarefas', 'lista'], ['habitos', 'Hábitos', 'chama'], ['agenda', 'Agenda', 'cal'], ['analise', 'Análise', 'grafico']];
+const NAV = [['hoje', 'Início', 'casa'], ['tarefas', 'Tarefas', 'lista'], ['habitos', 'Hábitos', 'chama'], ['agenda', 'Agenda', 'cal'], ['notas', 'Notas', 'nota'], ['analise', 'Análise', 'grafico']];
 function renderNav(){
   const st = dayStats(TODAY), pend = st.n - st.done, nome = userName();
   document.getElementById('navs').innerHTML = NAV.map(([id, l, ic]) => `<button class="nv${tab === id ? ' on' : ''}" data-tab="${id}"${tab === id ? ' aria-current="page"' : ''}><span class="ni">${svg(UI[ic], 2)}</span>${l}${id === 'tarefas' && pend ? `<span class="bdg num" aria-label="${pend} pendentes">${pend}</span>` : ''}</button>`).join('');
-  document.getElementById('av').innerHTML = nome ? esc(nome[0].toUpperCase()) : svg(UI.sol);
+  document.getElementById('av').innerHTML = avatarHtml();
+  document.getElementById('brand-nm').innerHTML = brandHtml();
+  document.title = S.appNome || 'Minha Rotina';
 }
 function render(){
+  metaCache = null;
   const bd = document.getElementById('board'), keepX = bd && tab === 'tarefas' && !boardToToday ? bd.scrollLeft : null;
   if (tab === 'agenda') renderAgenda();
   else if (tab === 'analise') renderAnalise();
   else if (tab === 'tarefas') renderTarefas();
   else if (tab === 'habitos') renderHabitos();
+  else if (tab === 'notas') renderNotas();
   else if (openCat) renderCat();
   if (tab === 'hoje' && !openCat) renderHoje();
-  const show = {hoje: tab === 'hoje' && !openCat, cat: tab === 'hoje' && !!openCat, tarefas: tab === 'tarefas', habitos: tab === 'habitos', agenda: tab === 'agenda', analise: tab === 'analise'};
+  const show = {hoje: tab === 'hoje' && !openCat, cat: tab === 'hoje' && !!openCat, tarefas: tab === 'tarefas', habitos: tab === 'habitos', notas: tab === 'notas', agenda: tab === 'agenda', analise: tab === 'analise'};
   Object.entries(show).forEach(([id, on]) => { document.getElementById('scr-' + id).hidden = !on; });
   renderTimerBar(); renderNav();
   document.getElementById('content').classList.toggle('ag', tab === 'agenda');
@@ -1991,6 +2081,11 @@ document.addEventListener('click', e => {
   const ds = b.dataset;
   if (ds.tab){ go(ds.tab); return; }
   if (ds.add){ addMenu(); return; }
+  if (ds.profile){ profileForm(); return; }
+  if (ds.editmeta){ metaForm(); return; }
+  if (ds.newnote){ noteForm(null, openCat ? {cat: openCat} : {}); return; }
+  if (ds.note){ noteForm((S.notes || []).find(n => n.id === ds.note)); return; }
+  if (ds.nf){ noteFilter = ds.nf; render(); return; }
   if (ds.qadd){ taskForm(null, openCat ? {cat: openCat} : {}); return; }
   if (ds.wk){ tWeek = ds.wk === '0' ? mondayOf(TODAY) : addDays(tWeek, 7 * ds.wk); boardToToday = true; render(); return; }
   if (ds.hidedone){ hideDone = !hideDone; render(); return; }
@@ -2058,11 +2153,13 @@ function addMenu(){
   openSheet(`<h3>Adicionar</h3><div class="menu">
     <button id="m-imp"><span class="ic" style="background:${seedColor('imp')}">${svg(ICONS.raio)}</span><span>Compromisso ou imprevisto<small>Vale só para uma data e aparece na agenda</small></span></button>
     <button id="m-task"><span class="ic" style="background:var(--accent)">${svg(UI.check)}</span><span>Tarefa de rotina<small>Repete todo dia ou em dias certos da semana</small></span></button>
+    <button id="m-note"><span class="ic" style="background:var(--forest)">${svg(UI.nota)}</span><span>Anotação<small>Ideia, lista ou lembrete livre</small></span></button>
     <button id="m-cat"><span class="ic" style="background:#56657A">${svg(ICONS.estrela)}</span><span>Categoria<small>Novo bloco com nome, ícone e cor</small></span></button>
   </div><div class="actions"><button class="btn" id="m-close">Cancelar</button></div>`);
   sheet.querySelector('#m-task').onclick = () => taskForm(null);
   sheet.querySelector('#m-imp').onclick = () => taskForm(null, {freq:'unica', date: day, cat: openCat || (S.cats.some(c => c.id === 'imp') ? 'imp' : S.cats[0].id)});
   sheet.querySelector('#m-cat').onclick = () => catForm(null);
+  sheet.querySelector('#m-note').onclick = () => noteForm(null);
   sheet.querySelector('#m-close').onclick = closeSheet;
 }
 
@@ -2185,22 +2282,121 @@ function catForm(c){
   };
 }
 
-function settings(){
-  openSheet(`<h3>Ajustes</h3>
+function metaFields(){
+  return `<div class="field"><span class="lbl">Tipo de meta</span><div class="seg"><button data-mauto="0" class="${S.metaAuto ? '' : 'on'}">Fixa</button><button data-mauto="1" class="${S.metaAuto ? 'on' : ''}">Automática</button></div></div>
+    <div class="field" id="m-fix"${S.metaAuto ? ' hidden' : ''}><label for="s-meta">Meta diária: <span id="s-val" class="num">${S.meta}%</span></label><input type="range" id="s-meta" min="10" max="100" step="5" value="${S.meta}"></div>
+    <p class="note" id="m-auto"${S.metaAuto ? '' : ' hidden'}>A meta acompanha a sua média dos últimos 14 dias (entre 30% e 90%). Hoje ela está em <b class="num">${autoMeta()}%</b>.</p>
+    <div class="field"><span class="lbl">Um dia conta na sequência quando</span><div class="seg"><button data-seq="meta" class="${seqMode() === 'meta' ? 'on' : ''}">Bato a meta</button><button data-seq="uma" class="${seqMode() === 'uma' ? 'on' : ''}">Marco 1 tarefa ou mais</button></div></div>`;
+}
+function wireMeta(f){
+  const q = x => sheet.querySelector(x), r = q('#s-meta');
+  f.meta = S.meta; f.metaAuto = !!S.metaAuto; f.seq = seqMode();
+  r.oninput = () => { q('#s-val').textContent = r.value + '%'; f.meta = +r.value; };
+  sheet.querySelectorAll('[data-mauto]').forEach(b => b.onclick = () => { f.metaAuto = b.dataset.mauto === '1'; sheet.querySelectorAll('[data-mauto]').forEach(x => x.classList.toggle('on', x === b)); q('#m-fix').hidden = f.metaAuto; q('#m-auto').hidden = !f.metaAuto; });
+  sheet.querySelectorAll('[data-seq]').forEach(b => b.onclick = () => { f.seq = b.dataset.seq; sheet.querySelectorAll('[data-seq]').forEach(x => x.classList.toggle('on', x === b)); });
+}
+const applyMeta = f => { S.meta = f.meta; S.metaAuto = f.metaAuto; S.seq = f.seq; };
+function metaForm(){
+  const f = {};
+  openSheet(`<h3>Meta do dia</h3>${metaFields()}<div class="actions"><button class="btn" id="m-cancel">Cancelar</button><button class="btn primary" id="m-ok">Salvar</button></div>`);
+  wireMeta(f);
+  sheet.querySelector('#m-cancel').onclick = closeSheet;
+  sheet.querySelector('#m-ok').onclick = () => { applyMeta(f); afterSave(); };
+}
+// Foto de perfil: recorta no centro em quadrado e reduz para caber na sincronização
+function pickPhoto(input, cb){
+  const file = input.files && input.files[0]; if (!file) return;
+  const rd = new FileReader();
+  rd.onload = () => { const im = new Image(); im.onload = () => {
+    const sz = 256, cv = document.createElement('canvas'); cv.width = cv.height = sz;
+    const m = Math.min(im.width, im.height);
+    cv.getContext('2d').drawImage(im, (im.width - m) / 2, (im.height - m) / 2, m, m, 0, 0, sz, sz);
+    cb(cv.toDataURL('image/jpeg', .85));
+  }; im.src = rd.result; };
+  rd.readAsDataURL(file);
+}
+const avatarHtml = () => S.foto ? `<img src="${S.foto}" alt="">` : (userName() ? esc(userName()[0].toUpperCase()) : svg(UI.sol));
+function profileFields(){
+  return `<div class="field"><span class="lbl">Foto de perfil</span><div class="pfrow"><span class="pfprev" id="p-prev">${avatarHtml()}</span>
+      <label class="pill-btn">${svg(UI.mais, 2.4)}<span>${S.foto ? 'Trocar foto' : 'Escolher foto'}</span><input type="file" accept="image/*" id="p-img" hidden></label>
+      <button class="pill-btn" id="p-rm"${S.foto ? '' : ' hidden'}>Remover</button></div></div>
     <div class="field"><label for="s-nome">Seu nome</label><input type="text" id="s-nome" value="${esc(S.nome || userName())}" placeholder="Como quer ser chamado no Início" autocomplete="given-name"></div>
-    <div class="field"><label for="s-meta">Meta diária para contar na sequência: <span id="s-val" class="num">${S.meta}%</span></label><input type="range" id="s-meta" min="50" max="100" step="5" value="${S.meta}"></div>
-    <p class="note">Um dia entra na sequência quando você conclui pelo menos essa porcentagem das tarefas dele.</p>
+    <div class="field"><label for="s-app">Nome do app</label><input type="text" id="s-app" value="${esc(S.appNome || '')}" placeholder="Minha Rotina"></div>`;
+}
+function wireProfile(f){
+  const q = x => sheet.querySelector(x);
+  f.foto = S.foto || '';
+  q('#p-img').onchange = () => pickPhoto(q('#p-img'), u => { f.foto = u; q('#p-prev').innerHTML = `<img src="${u}" alt="">`; q('#p-rm').hidden = false; });
+  q('#p-rm').onclick = () => { f.foto = ''; q('#p-prev').innerHTML = esc((q('#s-nome').value.trim() || '?')[0].toUpperCase()); q('#p-rm').hidden = true; };
+}
+const applyProfile = f => { S.foto = f.foto; S.nome = sheet.querySelector('#s-nome').value.trim(); S.appNome = sheet.querySelector('#s-app').value.trim(); };
+function profileForm(){
+  const f = {};
+  openSheet(`<h3>Seu perfil</h3>${profileFields()}<div class="actions"><button class="btn" id="p-cancel">Cancelar</button><button class="btn primary" id="p-ok">Salvar</button></div>`);
+  wireProfile(f);
+  sheet.querySelector('#p-cancel').onclick = closeSheet;
+  sheet.querySelector('#p-ok').onclick = () => { applyProfile(f); afterSave(); };
+}
+
+/* ---------- Anotações ---------- */
+let noteFilter = 'todas', noteQ = '';
+const fmtWhen = ts => { const d = new Date(ts), k = keyOf(d); return k === TODAY ? `hoje, ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}` : k === addDays(TODAY, -1) ? 'ontem' : `${d.getDate()} ${MES[d.getMonth()]}`; };
+const notesSorted = () => (S.notes || []).slice().sort((a, b) => (b.pin ? 1 : 0) - (a.pin ? 1 : 0) || b.upd - a.upd);
+function noteCard(n){
+  const c = n.cat ? S.cats.find(x => x.id === n.cat) : null;
+  return `<button class="nt${n.pin ? ' pin' : ''}" data-note="${n.id}" style="${c ? `--c:${c.color}` : ''}">
+    ${n.title ? `<b>${esc(n.title)}</b>` : ''}${n.body ? `<p>${esc(n.body)}</p>` : ''}
+    <span class="nf mono">${c ? `<i></i>${esc(c.name)} · ` : ''}${fmtWhen(n.upd)}${n.pin ? `<span class="pinic">${svg(UI.estrela, 2)}</span>` : ''}</span></button>`;
+}
+function renderNotas(){
+  const all = notesSorted(), qq = noteQ.trim().toLowerCase();
+  const list = all.filter(n => (noteFilter !== 'fixadas' || n.pin) && (noteFilter === 'todas' || noteFilter === 'fixadas' || n.cat === noteFilter) && (!qq || (n.title + ' ' + n.body).toLowerCase().includes(qq)));
+  const used = [...new Set(all.map(n => n.cat).filter(Boolean))].map(id => S.cats.find(c => c.id === id)).filter(Boolean);
+  document.getElementById('scr-notas').innerHTML = `${pageHead('Anotações', 'Anotações', 'Ideias e lembretes')}
+    <div class="tbar"><div class="filters" style="margin:0;flex-wrap:wrap">
+      <button class="fchip${noteFilter === 'todas' ? ' on' : ''}" data-nf="todas">Todas · ${all.length}</button>
+      <button class="fchip${noteFilter === 'fixadas' ? ' on' : ''}" data-nf="fixadas">Fixadas · ${all.filter(n => n.pin).length}</button>
+      ${used.map(c => `<button class="fchip${noteFilter === c.id ? ' on' : ''}" data-nf="${c.id}">${esc(c.name)}</button>`).join('')}</div>
+      <span class="sp"></span><input type="search" class="nsearch" id="nsearch" placeholder="Buscar nas anotações" value="${esc(noteQ)}"></div>
+    <div class="notes"><button class="nt newnote" data-newnote="1">${svg(UI.mais, 2.2)}<span>Nova anotação</span></button>${list.map(noteCard).join('')}</div>
+    ${!all.length ? `<p class="empty2">Escreva aqui ideias, listas e lembretes. Elas sincronizam com seus outros aparelhos.</p>` : !list.length ? `<p class="empty2">Nenhuma anotação encontrada.</p>` : ''}`;
+  const inp = document.getElementById('nsearch');
+  inp.oninput = () => { noteQ = inp.value; const pos = inp.selectionStart; renderNotas(); const n2 = document.getElementById('nsearch'); n2.focus(); n2.setSelectionRange(pos, pos); };
+}
+function noteForm(n, preset = {}){
+  const isNew = !n; n = n || {id: uid(), title: '', body: '', pin: false, cat: preset.cat || '', upd: Date.now()};
+  openSheet(`<h3>${isNew ? 'Nova anotação' : 'Anotação'}</h3>
+    <div class="field"><label for="n-t">Título</label><input type="text" id="n-t" value="${esc(n.title)}" placeholder="Opcional"></div>
+    <div class="field"><label for="n-b">Texto</label><textarea id="n-b" rows="8" placeholder="Escreva aqui">${esc(n.body)}</textarea></div>
+    <div class="row2"><div class="field"><label for="n-c">Categoria</label><select id="n-c"><option value="">Nenhuma</option>${S.cats.map(c => `<option value="${c.id}"${n.cat === c.id ? ' selected' : ''}>${esc(c.name)}</option>`).join('')}</select></div>
+      <div class="field"><span class="lbl">Fixar no topo</span><div class="seg"><button data-pin="0" class="${n.pin ? '' : 'on'}">Não</button><button data-pin="1" class="${n.pin ? 'on' : ''}">Sim</button></div></div></div>
+    <div class="actions">${isNew ? '<button class="btn" id="n-cancel">Cancelar</button>' : '<button class="btn danger" id="n-del">Excluir</button>'}<button class="btn primary" id="n-ok">Salvar</button></div>`);
+  const q = x => sheet.querySelector(x); let pin = !!n.pin;
+  sheet.querySelectorAll('[data-pin]').forEach(b => b.onclick = () => { pin = b.dataset.pin === '1'; sheet.querySelectorAll('[data-pin]').forEach(x => x.classList.toggle('on', x === b)); });
+  if (isNew) q('#n-cancel').onclick = closeSheet; else armDelete(q('#n-del'), () => { S.notes = S.notes.filter(x => x.id !== n.id); afterSave(); });
+  q('#n-ok').onclick = () => {
+    const t = q('#n-t').value.trim(), b = q('#n-b').value.replace(/\s+$/, '');
+    if (!t && !b){ if (isNew) closeSheet(); else { S.notes = S.notes.filter(x => x.id !== n.id); afterSave(); } return; }
+    Object.assign(n, {title: t, body: b, cat: q('#n-c').value, pin, upd: Date.now()});
+    S.notes = S.notes || []; if (isNew) S.notes.push(n); afterSave();
+  };
+}
+
+function settings(){
+  const f = {};
+  openSheet(`<h3>Ajustes</h3>
+    ${profileFields()}
+    ${metaFields()}
     <div class="field"><span class="lbl">Paleta de cores</span><div class="pals">${Object.entries(PALS).map(([k, v]) => `<button data-pal="${k}" class="${S.pal === k ? 'on' : ''}"><span class="sw">${v.prev.concat(v.cats.slice(0,4)).map(c => `<i style="background:${c}"></i>`).join('')}</span><b>${v.nome}</b></button>`).join('')}</div></div>
     <div class="field"><span class="lbl">Conta</span>${!cloudOn ? '<p class="note" style="margin:0">Modo local: os dados ficam só neste aparelho.</p>'
       : user ? `<div class="acct"><div><b>${esc(user.email)}</b><small id="s-sync">${SYNC_LABEL[syncState] + (syncErr ? ' · ' + syncErr : '')}</small></div><button class="fchip" id="s-syncnow">Sincronizar agora</button><button class="fchip" id="s-out">Sair</button></div>` : ''}</div>
     <div class="actions"><button class="btn danger" id="s-reset">Restaurar rotina inicial</button><button class="btn primary" id="s-ok">Pronto</button></div>`);
   if (sheet.querySelector('#s-syncnow')) sheet.querySelector('#s-syncnow').onclick = () => push().then(pull);
   if (sheet.querySelector('#s-out')) sheet.querySelector('#s-out').onclick = async () => { await push(); await sb.auth.signOut(); localStorage.removeItem('rotina-linked'); closeSheet(); };
-  const r = sheet.querySelector('#s-meta');
-  r.oninput = () => { sheet.querySelector('#s-val').textContent = r.value + '%'; };
-  sheet.querySelector('#s-ok').onclick = () => { S.meta = +r.value; S.nome = sheet.querySelector('#s-nome').value.trim(); afterSave(); };
+  wireProfile(f); wireMeta(f);
+  sheet.querySelector('#s-ok').onclick = () => { applyProfile(f); applyMeta(f); afterSave(); };
   sheet.querySelectorAll('[data-pal]').forEach(b => b.onclick = () => { setPal(b.dataset.pal); save(); render(); sheet.querySelectorAll('[data-pal]').forEach(x => x.classList.toggle('on', x === b)); });
-  armDelete(sheet.querySelector('#s-reset'), () => { const pal = S.pal, nome = S.nome; S = seed(); S.nome = nome; S.pal = pal; S.cats.forEach(c => c.color = seedColor(c.id)); afterSave(); });
+  armDelete(sheet.querySelector('#s-reset'), () => { const pal = S.pal, keep = {nome: S.nome, foto: S.foto, appNome: S.appNome, notes: S.notes}; S = seed(); Object.assign(S, keep); S.pal = pal; S.cats.forEach(c => c.color = seedColor(c.id)); afterSave(); });
 }
 
 render();
