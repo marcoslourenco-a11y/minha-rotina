@@ -1070,6 +1070,82 @@ button.av{border:0;padding:0;overflow:hidden;cursor:pointer}
 .nrow .mono{grid-column:2;grid-row:1;color:var(--muted)}
 .bacts .rbtn.av2{font-size:17px}
 @media (max-width:560px){ .home .o-notes{order:0} .nsearch{width:100%} }
+
+/* ---------- Tarefas: foco no dia ---------- */
+.wstrip{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;margin-bottom:14px}
+.wd{border:1px solid var(--line);background:var(--panel);border-radius:16px;padding:8px 2px 10px;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--ink);min-width:0}
+.wd small{font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.wd b{font-family:var(--font-display);font-size:19px;font-weight:600;line-height:1.1}
+.wd .ring{--sz:34px;width:var(--sz);height:var(--sz);border-radius:50%;margin-top:4px;display:grid;place-items:center;background:conic-gradient(var(--forest) var(--p),var(--panel2) 0)}
+.wd .ring span{width:calc(var(--sz) - 8px);height:calc(var(--sz) - 8px);border-radius:50%;background:var(--panel);display:grid;place-items:center;font-family:var(--font-mono);font-size:8.5px;color:var(--muted)}
+.wd.today b{color:var(--accent)}
+.wd.today small{color:var(--accent)}
+.wd.fut{opacity:.75}
+.wd.on{background:var(--forest);border-color:var(--forest);color:#F6F0E6}
+.wd.on small,.wd.on b{color:#F6F0E6}
+.wd.on .ring{background:conic-gradient(#F3C79B var(--p),rgba(255,255,255,.18) 0)}
+.wd.on .ring span{background:var(--forest);color:#F6F0E6}
+.fday{padding:18px 18px 10px}
+.fhead{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.fhead .mono{color:var(--muted)}
+.fhead h2{font-size:30px;line-height:1.05;margin-top:2px}
+.fsum{text-align:right}
+.fsum b{font-family:var(--font-display);font-size:30px;font-weight:600;line-height:1}
+.fsum b span{font-size:17px;color:var(--muted);font-weight:500}
+.fsum small{display:block;color:var(--muted);margin-top:2px}
+.fbar{height:6px;border-radius:6px;background:var(--panel2);overflow:hidden;margin:12px 0 10px}
+.fbar i{display:block;height:100%;border-radius:6px;background:var(--forest);transition:width .3s}
+.ftools{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
+.ftools .mono{color:var(--muted)}
+.fgrp h3{display:flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:10.5px;font-weight:500;letter-spacing:.07em;margin:14px 2px 4px;color:var(--muted)}
+.fgrp h3 svg{width:13px;height:13px}
+.fgrp h3 span{margin-left:auto}
+.fgrp.manha h3{color:var(--accent)}
+.fgrp.tarde h3{color:#C2452D}
+.fgrp.noite h3{color:var(--blue)}
+.fgrp ul{list-style:none;margin:0;padding:0}
+.frow{display:flex;align-items:center;gap:12px;padding:6px 4px;border-top:1px solid var(--line);min-height:54px}
+.fgrp ul .frow:first-child{border-top:0}
+.fck{flex:none;width:30px;height:30px;border-radius:50%;padding:0;border:2px solid var(--c);display:grid;place-items:center;color:#fff;
+  background:conic-gradient(var(--c) var(--p),transparent 0);transition:background .2s}
+.fck:not(.part):not(.done){background:transparent;border-color:color-mix(in srgb,var(--c) 55%,var(--line))}
+.fck.done{background:var(--c)}
+.fck svg{width:15px;height:15px}
+.fck:disabled{opacity:.4}
+.fmain{flex:1;min-width:0;border:0;background:none;padding:4px 0;text-align:left;color:var(--ink)}
+.fmain b{display:block;font-weight:600;font-size:15px;line-height:1.25}
+.fmain small{display:flex;align-items:center;gap:5px;color:var(--muted);font-size:12px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fmain small > *{flex:none}
+.fmain small span:last-child{flex:0 1 auto;overflow:hidden;text-overflow:ellipsis}
+.fmain .cdot{width:7px;height:7px;border-radius:50%;background:var(--c)}
+.fmain .dot{opacity:.6}
+.frow.done .fmain b{color:var(--muted);text-decoration:line-through;text-decoration-thickness:1.5px}
+.fcnt{flex:none;font-family:var(--font-mono);font-size:12px;padding:3px 8px;border-radius:999px;background:var(--panel2);color:var(--ink)}
+.fcnt.ok{background:color-mix(in srgb,var(--good) 18%,transparent);color:var(--good)}
+.frow .chipm{flex:none}
+@media (max-width:420px){
+  .wstrip{gap:4px}
+  .wd{padding:6px 0 8px;border-radius:13px}
+  .wd b{font-size:16px}
+  .wd .ring{--sz:28px}
+  .wd .ring span{font-size:7.5px}
+  .fday{padding:14px 12px 6px}
+  .fhead h2{font-size:26px}
+}
+@media (min-width:1100px){
+  .fgroups{columns:2;column-gap:32px}
+  .fgrp{break-inside:avoid}
+  .wd{padding:10px 4px 12px}
+  .wd .ring{--sz:40px}
+}
+@media (orientation:landscape) and (max-height:500px){
+  .wd{flex-direction:row;justify-content:center;gap:6px;padding:6px 4px}
+  .wd .ring{--sz:28px;margin-top:0}
+  .wd .ring span{font-size:7.5px}
+  .wd b{font-size:16px}
+  .fgroups{columns:2;column-gap:24px}
+  .fgrp{break-inside:avoid}
+}
 :focus-visible{outline-color:var(--ink)}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
@@ -1647,46 +1723,65 @@ function renderHoje(){
 
 /* ---------- Tela Tarefas: quadro da semana ---------- */
 const mondayOf = k => addDays(k, -((fromKey(k).getDay() + 6) % 7));
-let tWeek = mondayOf(TODAY), hideDone = false, boardToToday = true;
+let tDay = TODAY, hideDone = false;
 const slotOf = t => !t.hora ? 'any' : t.hora < '12:00' ? 'manha' : t.hora < '18:00' ? 'tarde' : 'noite';
 const SLOTS = [['any', 'Qualquer hora', 'relogio'], ['manha', 'Manhã', 'nascer'], ['tarde', 'Tarde', 'sol'], ['noite', 'Noite', 'lua']];
 function weekLabel(m){
   const a = fromKey(m), b = fromKey(addDays(m, 6));
   return a.getMonth() === b.getMonth() ? `${a.getDate()} a ${b.getDate()} de ${MESL[b.getMonth()].toLowerCase()}` : `${a.getDate()} de ${MES[a.getMonth()]} a ${b.getDate()} de ${MES[b.getMonth()]}`;
 }
-function tkCard(t, k){
-  const c = catOf(t.cat), f = frac(t, k), done = f >= 1, g = grpOf(t), lock = k > TODAY && t.freq !== 'unica';
+// Bolinha de check que enche pela metade quando a tarefa é feita em partes (ex.: 1 de 2)
+function fcheck(t, k, c){
+  const f = frac(t, k), done = f >= 1, lock = k > TODAY && t.freq !== 'unica';
+  const cnt = t.subs.length ? Math.round(f * t.subs.length) : Math.min((S.hist[k] || {})[t.id] || 0, t.times);
+  const tot = t.subs.length || t.times;
+  const style = `--c:${c.color};--p:${Math.round(f * 100)}%`;
+  const lbl = `${esc(t.name)}${tot > 1 ? `, ${cnt} de ${tot}` : ''}${done ? ', feita' : ''}`;
+  const act = t.subs.length ? `data-opencat="${t.cat}" data-k="${k}"` : `data-tog="${t.id}" data-k="${k}"`;
+  return `<button class="fck${done ? ' done' : f > 0 ? ' part' : ''}" style="${style}" ${act}${lock ? ' disabled' : ''} aria-label="${lbl}">${done ? svg(UI.check, 3) : ''}</button>`;
+}
+function frow(t, k){
+  const c = catOf(t.cat), g = grpOf(t), f = frac(t, k), done = f >= 1;
+  const cnt = t.subs.length ? Math.round(f * t.subs.length) : Math.min((S.hist[k] || {})[t.id] || 0, t.times), tot = t.subs.length || t.times;
   const run = S.timer && S.timer.id === t.id && S.timer.k === k;
-  const status = done ? `<span class="chipm done">${svg(UI.check, 3)}Concluída</span>`
-    : k < TODAY ? `<span class="chipm late">${t.freq === 'unica' ? 'Atrasada' : 'Não feita'}</span>`
-    : run ? `<span class="chipm doing">Fazendo</span>` : k === TODAY ? `<span class="chipm todo">Falta fazer</span>` : '';
-  const prog = t.subs.length ? `<span class="chipm hr">${svg(UI.sub, 2.4)}${Math.round(f * t.subs.length)} de ${t.subs.length}</span>`
-    : t.times > 1 ? `<span class="chipm hr num">${Math.min((S.hist[k] || {})[t.id] || 0, t.times)} de ${t.times}</span>` : '';
+  const meta = [t.hora && `<span class="num">${esc(t.hora)}</span>`, t.nota && `<span>${esc(t.nota)}</span>`].filter(Boolean).join('<span class="dot">·</span>');
+  const tag = done ? '' : k < TODAY ? `<span class="chipm late">${t.freq === 'unica' ? 'Atrasada' : 'Não feita'}</span>` : run ? `<span class="chipm doing">Fazendo</span>` : '';
   const act = t.subs.length ? `data-opencat="${t.cat}" data-k="${k}"` : `data-edit="${t.id}"`;
-  return `<div class="tk${done ? ' done' : ''}${lock ? ' lock' : ''}">${checkBtn(t, k, c.color)}<button class="tb" ${act}><b>${esc(t.name)}</b>${t.nota ? `<p>${esc(t.nota)}</p>` : ''}
-    <span class="chips2">${t.hora ? `<span class="chipm hr num">${esc(t.hora)}</span>` : ''}${prog}${status}</span>
-    <span class="catline"><i style="background:${c.color}"></i>${esc(c.name)}${g ? ' · ' + esc(g.name) : ''}</span></button></div>`;
+  return `<li class="frow${done ? ' done' : ''}" style="--c:${c.color}">${fcheck(t, k, c)}
+    <button class="fmain" ${act}><b>${esc(t.name)}</b><small><span class="cdot"></span>${esc(c.name)}${g ? ' · ' + esc(g.name) : ''}${meta ? `<span class="dot">·</span>${meta}` : ''}</small></button>
+    ${tag}${tot > 1 ? `<span class="fcnt num${done ? ' ok' : ''}">${cnt}/${tot}</span>` : ''}</li>`;
 }
 function renderTarefas(){
-  const cols = [0, 1, 2, 3, 4, 5, 6].map(i => {
-    const k = addDays(tWeek, i), d = fromKey(k), s = dayStats(k);
-    const ts = S.tasks.filter(t => scheduled(t, k) && (!hideDone || frac(t, k) < 1)).sort(byHora);
-    const slots = SLOTS.map(([id, nm, ic]) => { const xs = ts.filter(t => slotOf(t) === id); return xs.length ? `<div class="slot ${id}"><div class="sh mono">${svg(UI[ic], 2.2)}${nm}</div>${xs.map(t => tkCard(t, k)).join('')}</div>` : ''; }).join('');
-    return `<section class="dcol${k === TODAY ? ' today' : ''}" data-col="${k}">
-      <div class="dh2"><b>${cap(DOWL[d.getDay()].split('-')[0])}</b><span class="mono num">${dm(k)}${s.n ? ` · ${s.done}/${s.n}` : ''}</span><button class="plusb" data-addon="${k}" aria-label="Adicionar em ${dm(k)}">${svg(UI.mais, 2.2)}</button></div>
-      <div class="dbar"><i style="width:${s.pct || 0}%"></i></div>
-      ${slots || `<div class="colempty">${s.n ? 'Tudo feito neste dia.' : 'Nada neste dia.'}</div>`}
-    </section>`;
+  const wk = mondayOf(tDay);
+  const strip = [0, 1, 2, 3, 4, 5, 6].map(i => {
+    const k = addDays(wk, i), d = fromKey(k), st = dayStats(k), p = st.pct === null ? null : Math.round(st.pct);
+    return `<button class="wd${k === tDay ? ' on' : ''}${k === TODAY ? ' today' : ''}${k > TODAY ? ' fut' : ''}" data-tday="${k}" aria-label="${DOWL[d.getDay()]}, ${d.getDate()}${p !== null ? `, ${p}% feito` : ''}" aria-pressed="${k === tDay}">
+      <small>${DOW[d.getDay()]}</small><b class="num">${d.getDate()}</b>
+      <span class="ring" style="--p:${p || 0}%"><span class="num">${p === null ? '–' : k > TODAY && !p ? '·' : p + '%'}</span></span></button>`;
   }).join('');
-  document.getElementById('scr-tarefas').innerHTML = `${pageHead('Tarefas', 'Tarefas', 'A semana dia a dia')}
+  const d = fromKey(tDay), st = dayStats(tDay);
+  const all = S.tasks.filter(t => scheduled(t, tDay)).sort(byHora);
+  const ts = all.filter(t => !hideDone || frac(t, tDay) < 1);
+  const groups = SLOTS.map(([id, nm, ic]) => { const xs = ts.filter(t => slotOf(t) === id); return xs.length ? `<section class="fgrp ${id}"><h3 class="mono">${svg(UI[ic], 2.2)}${nm}<span>${xs.filter(t => frac(t, tDay) >= 1).length}/${xs.length}</span></h3><ul>${xs.map(t => frow(t, tDay)).join('')}</ul></section>` : ''; }).join('');
+  const when = tDay === TODAY ? 'Hoje' : tDay === addDays(TODAY, -1) ? 'Ontem' : tDay === addDays(TODAY, 1) ? 'Amanhã' : cap(DOWL[d.getDay()]);
+  document.getElementById('scr-tarefas').innerHTML = `${pageHead('Tarefas', 'Tarefas', 'Foco no dia')}
     <div class="tbar">
-      <div class="wnav"><button class="rbtn" data-wk="-1" aria-label="Semana anterior">${svg(UI.voltar, 2.2)}</button><b>${weekLabel(tWeek)}</b><button class="rbtn" data-wk="1" aria-label="Próxima semana">${svg(UI.dir, 2.2)}</button></div>
-      ${tWeek !== mondayOf(TODAY) ? `<button class="pill-btn" data-wk="0">Esta semana</button>` : ''}
+      <div class="wnav"><button class="rbtn" data-wk="-1" aria-label="Semana anterior">${svg(UI.voltar, 2.2)}</button><b>${weekLabel(wk)}</b><button class="rbtn" data-wk="1" aria-label="Próxima semana">${svg(UI.dir, 2.2)}</button></div>
+      ${tDay !== TODAY ? `<button class="pill-btn" data-wk="0">${svg(UI.sol)}Hoje</button>` : ''}
       <span class="sp"></span>
-      <button class="fchip${hideDone ? ' on' : ''}" data-hidedone="1">${hideDone ? 'Mostrando pendentes' : 'Ocultar feitas'}</button>
-      <button class="pill-btn dash" data-qadd="task">${svg(UI.mais, 2.4)}Nova tarefa</button>
+      <button class="pill-btn dash" data-addon="${tDay}">${svg(UI.mais, 2.4)}Nova tarefa</button>
     </div>
-    <div class="board" id="board">${cols}</div>`;
+    <div class="wstrip" role="group" aria-label="Dias da semana">${strip}</div>
+    <div class="fday card${tDay > TODAY ? ' fut' : ''}">
+      <div class="fhead">
+        <div><span class="mono">${when === cap(DOWL[d.getDay()]) ? '' : cap(DOWL[d.getDay()]) + ' · '}${d.getDate()} de ${MESL[d.getMonth()].toLowerCase()}</span><h2>${when}</h2></div>
+        <div class="fsum"><b class="num">${st.done}<span>/${st.n}</span></b><small class="mono">feitas</small></div>
+      </div>
+      <div class="fbar"><i style="width:${st.pct || 0}%"></i></div>
+      <div class="ftools"><span class="mono">${tDay > TODAY ? 'Dia futuro: dá para ver e editar' : st.n - st.done ? plural(st.n - st.done, 'pendente', 'pendentes') : 'Tudo feito'}</span>
+        <button class="fchip${hideDone ? ' on' : ''}" data-hidedone="1">${hideDone ? 'Mostrar feitas' : 'Ocultar feitas'}</button></div>
+      ${groups ? `<div class="fgroups">${groups}</div>` : `<div class="empty2">${all.length ? 'Tudo feito neste dia. 🎉' : 'Nada marcado para este dia.'}</div>`}
+    </div>`;
 }
 
 /* ---------- Tela Hábitos ---------- */
@@ -2046,7 +2141,6 @@ function renderNav(){
 }
 function render(){
   metaCache = null;
-  const bd = document.getElementById('board'), keepX = bd && tab === 'tarefas' && !boardToToday ? bd.scrollLeft : null;
   if (tab === 'agenda') renderAgenda();
   else if (tab === 'analise') renderAnalise();
   else if (tab === 'tarefas') renderTarefas();
@@ -2058,20 +2152,11 @@ function render(){
   Object.entries(show).forEach(([id, on]) => { document.getElementById('scr-' + id).hidden = !on; });
   renderTimerBar(); renderNav();
   document.getElementById('content').classList.toggle('ag', tab === 'agenda');
-  if (tab === 'tarefas'){
-    const b2 = document.getElementById('board');
-    if (keepX !== null) b2.scrollLeft = keepX;
-    else if (boardToToday){
-      const col = b2.querySelector('.dcol.today') || b2.querySelector('.dcol');
-      b2.scrollLeft = Math.max(0, col.offsetLeft - b2.offsetLeft - b2.clientWidth + col.offsetWidth + 14);
-      boardToToday = false;
-    }
-  }
 }
 function go(newTab){
   tab = newTab; openCat = null;
   if (tab === 'hoje') sel = TODAY;
-  if (tab === 'tarefas') boardToToday = true;
+  if (tab === 'tarefas') tDay = TODAY;
   render();
   if (tab === 'agenda' && agView === 'lista') jumpTo(TODAY); else window.scrollTo(0, 0);
 }
@@ -2087,7 +2172,8 @@ document.addEventListener('click', e => {
   if (ds.note){ noteForm((S.notes || []).find(n => n.id === ds.note)); return; }
   if (ds.nf){ noteFilter = ds.nf; render(); return; }
   if (ds.qadd){ taskForm(null, openCat ? {cat: openCat} : {}); return; }
-  if (ds.wk){ tWeek = ds.wk === '0' ? mondayOf(TODAY) : addDays(tWeek, 7 * ds.wk); boardToToday = true; render(); return; }
+  if (ds.wk){ tDay = ds.wk === '0' ? TODAY : addDays(tDay, 7 * ds.wk); render(); return; }
+  if (ds.tday){ tDay = ds.tday; render(); return; }
   if (ds.hidedone){ hideDone = !hideDone; render(); return; }
   if (ds.hwk){ hWeek = addDays(hWeek, 7 * ds.hwk); render(); return; }
   if (ds.hmn){ hM += +ds.hmn; if (hM < 0){ hM = 11; hY--; } if (hM > 11){ hM = 0; hY++; } render(); return; }
