@@ -1366,9 +1366,12 @@ function dayStats(k, filter = () => true){
   return { n: ts.length, sum, done: ts.filter(t => frac(t, k) >= 1).length, pct: ts.length ? sum / ts.length * 100 : null };
 }
 const hit = k => { const p = dayStats(k).pct; return p !== null && p >= S.meta; };
+// Dia que conta na sequência: com pelo menos uma tarefa marcada (padrão) ou com a meta batida
+const seqMode = () => S.seq || 'uma';
+const seqDay = k => seqMode() === 'meta' ? hit(k) : dayStats(k).sum > 0;
 function streak(){
-  let n = hit(TODAY) ? 1 : 0, k = addDays(TODAY, -1);
-  for (let i = 0; i < 730 && hit(k); i++){ n++; k = addDays(k, -1); }
+  let n = seqDay(TODAY) ? 1 : 0, k = addDays(TODAY, -1);
+  for (let i = 0; i < 730 && seqDay(k); i++){ n++; k = addDays(k, -1); }
   return n;
 }
 const byHora = (a, b) => (a.hora || '99').localeCompare(b.hora || '99');
@@ -1495,10 +1498,11 @@ function renderHoje(){
   const d = fromKey(sel), isToday = sel === TODAY, dayWord = isToday ? 'hoje' : 'neste dia';
   const st = dayStats(sel), sk = streak(), best = bestStreak();
   const need = Math.max(0, Math.ceil(S.meta * st.n / 100 - st.sum - 1e-9));
-  const prev = hit(TODAY) ? sk - 1 : sk;
+  const prev = seqDay(TODAY) ? sk - 1 : sk, uma = seqMode() === 'uma';
   let msg;
   if (!isToday) msg = sel > TODAY ? 'Dia futuro: dá para ver e editar as tarefas.' : 'Você pode corrigir o que esqueceu de marcar neste dia.';
-  else if (hit(TODAY)) msg = `Meta de hoje batida! Sequência de ${plural(sk, 'dia', 'dias')}.`;
+  else if (seqDay(TODAY)) msg = uma ? `Hoje já conta! Sequência de ${plural(sk, 'dia', 'dias')}.` : `Meta de hoje batida! Sequência de ${plural(sk, 'dia', 'dias')}.`;
+  else if (uma) msg = prev > 0 ? `Marque uma tarefa hoje para manter a sequência de ${plural(prev, 'dia', 'dias')}.` : 'Marque uma tarefa hoje para começar uma sequência.';
   else if (prev > 0) msg = `Faltam ${plural(need, 'tarefa', 'tarefas')} para manter a sequência.`;
   else msg = `Conclua ${plural(need, 'tarefa', 'tarefas')} hoje para começar uma sequência.`;
 
@@ -1904,7 +1908,7 @@ function periodStats(n){
 }
 function bestStreak(){
   let best = 0, cur = 0, k = S.created || TODAY;
-  for (let i = 0; i < 1000 && k <= TODAY; i++){ if (hit(k)) { cur++; best = Math.max(best, cur); } else if (k !== TODAY) cur = 0; k = addDays(k, 1); }
+  for (let i = 0; i < 1000 && k <= TODAY; i++){ if (seqDay(k)) { cur++; best = Math.max(best, cur); } else if (k !== TODAY) cur = 0; k = addDays(k, 1); }
   return best;
 }
 function timeChart(keys){
@@ -2215,14 +2219,16 @@ function catForm(c){
 function settings(){
   openSheet(`<h3>Ajustes</h3>
     <div class="field"><label for="s-nome">Seu nome</label><input type="text" id="s-nome" value="${esc(S.nome || userName())}" placeholder="Como quer ser chamado no Início" autocomplete="given-name"></div>
-    <div class="field"><label for="s-meta">Meta diária para contar na sequência: <span id="s-val" class="num">${S.meta}%</span></label><input type="range" id="s-meta" min="50" max="100" step="5" value="${S.meta}"></div>
-    <p class="note">Um dia entra na sequência quando você conclui pelo menos essa porcentagem das tarefas dele.</p>
+    <div class="field"><span class="lbl">Um dia conta na sequência quando</span><div class="seg" id="s-seq"><button data-seq="uma" class="${seqMode() === 'uma' ? 'on' : ''}">Marco 1 tarefa ou mais</button><button data-seq="meta" class="${seqMode() === 'meta' ? 'on' : ''}">Bato a meta diária</button></div></div>
+    <div class="field"><label for="s-meta">Meta diária: <span id="s-val" class="num">${S.meta}%</span></label><input type="range" id="s-meta" min="50" max="100" step="5" value="${S.meta}"></div>
+    <p class="note">Usada nos dias na meta, nos gráficos e, se você escolher, na sequência.</p>
     <div class="field"><span class="lbl">Paleta de cores</span><div class="pals">${Object.entries(PALS).map(([k, v]) => `<button data-pal="${k}" class="${S.pal === k ? 'on' : ''}"><span class="sw">${v.prev.concat(v.cats.slice(0,4)).map(c => `<i style="background:${c}"></i>`).join('')}</span><b>${v.nome}</b></button>`).join('')}</div></div>
     <div class="field"><span class="lbl">Conta</span>${!cloudOn ? '<p class="note" style="margin:0">Modo local: os dados ficam só neste aparelho.</p>'
       : user ? `<div class="acct"><div><b>${esc(user.email)}</b><small id="s-sync">${SYNC_LABEL[syncState] + (syncErr ? ' · ' + syncErr : '')}</small></div><button class="fchip" id="s-syncnow">Sincronizar agora</button><button class="fchip" id="s-out">Sair</button></div>` : ''}</div>
     <div class="actions"><button class="btn danger" id="s-reset">Restaurar rotina inicial</button><button class="btn primary" id="s-ok">Pronto</button></div>`);
   if (sheet.querySelector('#s-syncnow')) sheet.querySelector('#s-syncnow').onclick = () => push().then(pull);
   if (sheet.querySelector('#s-out')) sheet.querySelector('#s-out').onclick = async () => { await push(); await sb.auth.signOut(); localStorage.removeItem('rotina-linked'); closeSheet(); };
+  sheet.querySelectorAll('[data-seq]').forEach(b => b.onclick = () => { S.seq = b.dataset.seq; sheet.querySelectorAll('[data-seq]').forEach(x => x.classList.toggle('on', x === b)); });
   const r = sheet.querySelector('#s-meta');
   r.oninput = () => { sheet.querySelector('#s-val').textContent = r.value + '%'; };
   sheet.querySelector('#s-ok').onclick = () => { S.meta = +r.value; S.nome = sheet.querySelector('#s-nome').value.trim(); afterSave(); };
