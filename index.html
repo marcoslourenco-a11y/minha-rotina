@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <title>Minha Rotina</title>
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#F5603A">
+<meta name="theme-color" content="#F1F1F4">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -585,6 +585,228 @@ body::after{content:"";position:fixed;inset:-20% -10% auto -10%;height:120%;z-in
 .acct div{flex:1 1 100%}
 .acct b{display:block}
 .acct small{color:var(--muted);font-weight:700;font-size:12px}
+/* =====================================================================
+   Visual "painel": fundo claro neutro, cartões grandes com degradê
+   desfocado, números grandes, gráficos de pontos, abas em pílula e
+   barra flutuante no rodapé.
+   ===================================================================== */
+:root,:root[data-pal]{
+  --bg:#F1F1F4; --surface:#FFFFFF; --ink:#141418; --deep:#141418; --muted:#8B8B95; --line:#E6E6EC; --soft:#ECECF1;
+  --good:#22A55B; --bad:#F2553D;
+  --font-display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter","Segoe UI",system-ui,sans-serif;
+  --font-body:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter","Segoe UI",system-ui,sans-serif;
+  --shadow:0 1px 2px rgba(20,20,30,.04),0 14px 34px -20px rgba(20,20,40,.22);
+  --nav-h:84px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]),:root[data-pal]:not([data-theme="light"]){
+    --bg:#0B0B0E; --surface:#18181D; --ink:#F3F3F6; --muted:#9696A0; --line:#2A2A31; --soft:#222228;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 14px 34px -20px rgba(0,0,0,.9);
+  }
+}
+:root[data-theme="dark"],:root[data-pal][data-theme="dark"]{
+  --bg:#0B0B0E; --surface:#18181D; --ink:#F3F3F6; --muted:#9696A0; --line:#2A2A31; --soft:#222228;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 14px 34px -20px rgba(0,0,0,.9);
+}
+body,body{background:var(--bg);background-attachment:scroll;font-family:var(--font-body);letter-spacing:-.005em}
+body::before,body::after,.orbs{display:none}
+h1,h2,h3{letter-spacing:-.02em}
+.content,.content.ag{padding:calc(env(safe-area-inset-top) + 14px) calc(env(safe-area-inset-right) + 16px) calc(env(safe-area-inset-bottom) + 120px) calc(env(safe-area-inset-left) + 16px);max-width:1240px}
+
+/* Superfícies */
+.card,.ncard,.pill,.item,.allset,.grp{background:var(--surface);border:0;box-shadow:var(--shadow);-webkit-backdrop-filter:none;backdrop-filter:none}
+.card{border-radius:30px;padding:18px}
+.ncard,.pill,.item{border-radius:22px}
+.pill.done{background:color-mix(in srgb,var(--surface) 55%,transparent);box-shadow:none}
+.grp{border-radius:26px}
+.round,.plus{background:var(--surface);border:0;box-shadow:var(--shadow);color:var(--ink)}
+.round{width:48px;height:48px}
+.fchip{border:0;background:var(--surface);box-shadow:var(--shadow);color:var(--ink)}
+.fchip.on{background:var(--ink);color:var(--surface)}
+.sd{border:0;box-shadow:var(--shadow)}
+.sd.today{background:var(--ink);color:var(--surface)}
+.sd.today small{color:var(--surface)}
+
+/* Abas em pílula */
+.seg,.seg.perseg,.seg.agseg,.hseg{display:flex;gap:4px;padding:5px;border:0;border-radius:999px;background:var(--surface);box-shadow:var(--shadow);max-width:none;overflow:visible}
+.seg button,.hseg button{flex:1;border:0;background:none;border-radius:999px;padding:12px 8px;font-size:15px;font-weight:500;color:var(--muted);transition:background .2s,color .2s}
+.seg button.on,.hseg button.on{background:var(--ink);color:var(--surface);font-weight:600}
+.sheet .seg{box-shadow:none;background:var(--bg)}
+.sheet .seg button{padding:10px 6px;font-size:14px}
+
+/* Botões principais em preto, como na referência */
+.btn{border:0;background:var(--soft)}
+.btn.primary{background:var(--ink);color:var(--surface)}
+.chip.on{background:var(--ink);border-color:var(--ink);color:var(--surface)}
+.link{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.sheet{border-radius:30px 30px 0 0}
+@media (min-width:700px){.sheet{border-radius:30px}}
+
+/* Cabeçalho: botão redondo, título no meio, botão redondo */
+.hdr{display:grid;grid-template-columns:48px minmax(0,1fr) 48px;align-items:center;gap:10px;margin:0 0 16px}
+.hdr .ttl{text-align:center;min-width:0}
+.hdr h1{font-size:22px;font-weight:600;line-height:1.15}
+.hdr .ttl small{display:block;color:var(--muted);font-size:13px;font-weight:500;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hdr .sync{margin-top:4px;justify-content:center}
+.hdr .syncerr{margin:4px auto 0}
+.round svg{width:20px;height:20px}
+.round.daynum{flex-direction:column;gap:0;line-height:1;display:flex;align-items:center;justify-content:center}
+.round.daynum small{font-size:9px;font-weight:700;color:var(--bad);text-transform:uppercase;letter-spacing:.06em}
+.round.daynum b{font-size:17px;font-weight:700}
+.hdr .spacer{width:48px}
+
+/* Cartões com degradê desfocado */
+.aura{position:relative;overflow:hidden;isolation:isolate;border-radius:30px;color:#fff;border:0;text-align:left;
+  --a0:#7C66C9; --a1:#4B3B98; --a2:#C9A6F2; --a3:#9C7BE3;
+  background:var(--a0);box-shadow:0 22px 40px -26px var(--a1),inset 0 0 0 1px rgba(255,255,255,.22)}
+.aura::before{content:"";position:absolute;inset:-35%;z-index:-2;pointer-events:none;
+  background:radial-gradient(38% 46% at 22% 38%,var(--a1) 0,transparent 72%),radial-gradient(42% 48% at 82% 22%,var(--a2) 0,transparent 72%),radial-gradient(46% 52% at 64% 88%,var(--a3) 0,transparent 74%),radial-gradient(30% 34% at 45% 55%,color-mix(in srgb,var(--a2) 60%,#fff) 0,transparent 70%),var(--a0);
+  filter:blur(26px) saturate(1.12)}
+.aura::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;border-radius:inherit;opacity:.5;mix-blend-mode:soft-light;
+  background:linear-gradient(180deg,rgba(255,255,255,.35),rgba(255,255,255,0) 45%),url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.55'/></svg>")}
+.aura.blue{--a0:#86A6EE; --a1:#5776DB; --a2:#CFE0FF; --a3:#9CB9F5}
+.aura.red{--a0:#EC7A6E; --a1:#D5433A; --a2:#FFC6BC; --a3:#F39A8C}
+.aura.cat{--a0:var(--c); --a1:color-mix(in srgb,var(--c) 72%,#000); --a2:color-mix(in srgb,var(--c) 45%,#fff); --a3:color-mix(in srgb,var(--c) 75%,#fff)}
+
+/* ---------- Hoje ---------- */
+.hseg{margin-bottom:14px}
+.hoje2{display:grid;gap:14px;grid-template-columns:minmax(0,1fr)}
+.colA,.colB{display:flex;flex-direction:column;gap:14px;min-width:0}
+.hero2{padding:18px 18px 14px;min-height:200px;display:flex;flex-direction:column}
+.hero2 .lb{font-size:13px;font-weight:500;opacity:.9}
+.bignum{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:4px 0 0}
+.bignum b{font-family:var(--font-display);font-size:46px;font-weight:600;letter-spacing:-.035em;line-height:1.05}
+.bignum span{font-size:13px;font-weight:500;opacity:.9}
+.dotc{width:100%;height:auto;display:block;margin-top:auto;overflow:visible}
+.hero2 .dotc{margin-top:14px}
+.dotc .b{fill:rgba(255,255,255,.5)}
+.dotc .o{fill:rgba(255,255,255,.95)}
+.dotc .h{fill:#F6B8FF}
+.dotc .g{fill:var(--good)}
+.dotc .r{fill:var(--bad)}
+.dotc .z{fill:var(--line)}
+.axis{display:flex;justify-content:space-between;gap:8px;font-size:11px;font-weight:500;margin-top:6px;opacity:.85}
+.axis span:nth-child(2){flex:1;text-align:center}
+.duo2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.mini2{min-height:150px;padding:14px 14px 14px 16px;display:flex;flex-direction:column;font:inherit}
+.mini2 .mh{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500}
+.mini2 .mh svg{width:18px;height:18px}
+.mini2 .go{position:absolute;top:12px;right:12px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.28);display:grid;place-items:center}
+.mini2 .go svg{width:14px;height:14px}
+.mini2 b{font-family:var(--font-display);font-size:34px;font-weight:600;letter-spacing:-.03em;line-height:1;margin-top:auto}
+.mini2 small{font-size:12px;font-weight:500;opacity:.9;margin-top:4px}
+.flow{padding:18px}
+.flow .fh{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:14px;font-weight:500}
+.flow .lg{display:flex;gap:10px;color:var(--muted);font-size:13px}
+.flow .lg i{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;vertical-align:1px}
+.flow .bignum b{font-size:38px;color:var(--ink)}
+.flow .bignum span{color:var(--muted);opacity:1}
+.flow p{margin:6px 0 4px;color:var(--muted);font-size:13px;font-weight:500}
+.flow .axis{color:var(--muted);opacity:1}
+.flow .dotc{margin-top:12px}
+.sec-h h2{font-size:18px;font-weight:600}
+.sec-h small{font-weight:500}
+.allset{border-radius:22px;font-weight:500}
+
+/* Blocos de categoria com o mesmo degradê desfocado */
+.block{border-radius:28px;min-height:156px;padding:14px;color:var(--fg,#fff)}
+.block.aura{background:var(--a0)}
+.block .art{background:rgba(255,255,255,.22)}
+.block .cnt{background:rgba(255,255,255,.92);color:#141418;font-weight:700}
+.block .nm{font-weight:600}
+.block .nx{font-weight:500}
+.block .mini{background:rgba(255,255,255,.3)}
+.block .mini i{background:rgba(255,255,255,.95)}
+.block.add{background:var(--surface);border:2px dashed var(--line);box-shadow:none;color:var(--muted)}
+.band.aura{border-radius:30px}
+.band .round{background:rgba(255,255,255,.9);color:#141418;box-shadow:none}
+.band .hbar{background:rgba(255,255,255,.3)}
+.band .hbar i{background:rgba(255,255,255,.95)}
+.bandart{background:rgba(255,255,255,.22)}
+.next .dotcol i{background:var(--surface)}
+.next li:first-child .dotcol i{border-color:var(--ink);background:var(--ink)}
+
+/* Análise: os três primeiros números em cartões coloridos */
+.kpi{border-radius:28px;min-height:118px;display:flex;flex-direction:column;justify-content:space-between}
+.kpi b{font-weight:600;letter-spacing:-.03em}
+.kpi.aura small,.kpi.aura b span{color:rgba(255,255,255,.88);font-weight:500}
+.kpi small{font-weight:500}
+.cal-legend i.bar{background:var(--ink)}
+.cd{background:var(--soft)}
+.cd.today,.cd.today.sel{background:var(--ink);color:var(--surface);box-shadow:0 0 0 3px var(--line)}
+.cd.today b{color:var(--surface)}
+.cd.sel:not(.today){background:var(--surface);box-shadow:inset 0 0 0 2px var(--ink)}
+.cd.sel:not(.today) .cbar i{background:var(--ink)!important}
+.ag-top{background:linear-gradient(var(--bg) 85%,transparent);margin:0 -16px;padding:calc(env(safe-area-inset-top) + 14px) 16px 10px}
+.ag-top.static{background:none;padding-top:0;margin-top:0}
+.agseg{margin:0 0 12px}
+
+/* ---------- Barra flutuante no rodapé ---------- */
+.dock{position:fixed;z-index:8;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom) + 14px);display:flex;align-items:center;gap:8px;padding:7px;border-radius:999px;
+  background:color-mix(in srgb,var(--surface) 88%,transparent);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:0 1px 2px rgba(0,0,0,.05),0 18px 40px -16px rgba(20,20,40,.35)}
+.dk{width:54px;height:54px;border-radius:50%;border:0;background:var(--soft);color:var(--muted);display:grid;place-items:center;position:relative;transition:background .2s,color .2s}
+.dk svg{width:22px;height:22px}
+.dk.on{background:var(--ink);color:var(--surface)}
+.dk-main{height:54px;border:0;border-radius:999px;background:#141418;color:#fff;display:flex;align-items:center;gap:10px;padding:0 22px 0 9px;font-size:15px;font-weight:600}
+:root[data-theme="dark"] .dk-main{background:#2A2A32}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .dk-main{background:#2A2A32}}
+.dk-main .orbi{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 30% 30%,#FFD1F3 0,#E05BD0 38%,#7B5CF0 70%,#4F7BF2 100%);box-shadow:0 0 18px rgba(224,91,208,.55)}
+.dk-main .orbi svg{width:18px;height:18px;color:#fff}
+#timerbar{bottom:calc(env(safe-area-inset-bottom) + 84px)}
+
+/* ---------- Horizontal e telas grandes ---------- */
+@media (orientation: landscape) and (min-width: 640px){
+  .content,.content.ag{padding-left:calc(env(safe-area-inset-left) + 20px);padding-right:calc(env(safe-area-inset-right) + 20px);padding-bottom:calc(env(safe-area-inset-bottom) + 100px)}
+  .ag-top{margin-left:-20px;margin-right:-20px;padding-left:20px;padding-right:20px}
+}
+@media (min-width: 720px){
+  .hoje2{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start;gap:18px}
+  .colA,.colB{gap:18px}
+  .hseg{max-width:460px;margin-left:auto;margin-right:auto}
+  .seg.perseg,.seg.agseg{max-width:460px}
+  .blocks{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (orientation: landscape) and (max-height: 500px){
+  .hero2{min-height:170px}
+  .mini2{min-height:124px}
+  .block{min-height:128px}
+  .dk,.dk-main{height:48px}
+  .dk{width:48px}
+  .dock{bottom:calc(env(safe-area-inset-bottom) + 8px)}
+  .hdr{margin-bottom:10px}
+  .hdr h1{font-size:19px}
+  .round{width:42px;height:42px}
+  .hdr{grid-template-columns:42px minmax(0,1fr) 42px}
+  .seg button,.hseg button{padding:9px 8px;font-size:14px}
+  .hseg{max-width:420px;margin-left:auto;margin-right:auto}
+}
+@media (min-width: 1024px){
+  .content,.content.ag{padding-top:28px}
+  .hdr{grid-template-columns:54px minmax(0,1fr) 54px;margin-bottom:22px}
+  .hdr h1{font-size:30px}
+  .hdr .ttl small{font-size:15px}
+  .round{width:54px;height:54px}
+  .hoje2{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:24px}
+  .colA,.colB{gap:24px}
+  .hero2{min-height:300px;padding:28px 28px 20px;border-radius:36px}
+  .hero2 .lb{font-size:15px}
+  .bignum b{font-size:72px}
+  .bignum span{font-size:16px}
+  .mini2{min-height:200px;padding:22px;border-radius:32px}
+  .mini2 b{font-size:52px}
+  .mini2 .mh{font-size:16px}
+  .flow{padding:26px}
+  .flow .bignum b{font-size:52px}
+  .blocks{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+  .block{min-height:190px;padding:20px;border-radius:30px}
+  .block .nm{font-size:20px}
+  .block .art{width:64px;height:64px;border-radius:20px}
+  .block .art svg{width:38px;height:38px}
+  .block .cnt{top:18px;right:18px}
+  .kpi b{font-size:44px}
+}
+
+:focus-visible{outline-color:var(--ink)}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
@@ -596,12 +818,11 @@ body::after{content:"";position:fixed;inset:-20% -10% auto -10%;height:120%;z-in
   <section class="screen" id="scr-agenda" hidden></section>
   <section class="screen" id="scr-analise" hidden></section>
 </div>
-<nav class="tabbar" aria-label="Navegação">
-  <button class="tab on" data-tab="hoje"><span class="tic" id="tic-hoje"></span>Hoje</button>
-  <button class="tab" data-tab="agenda"><span class="tic" id="tic-agenda"></span>Agenda</button>
-  <button class="tab" data-tab="analise"><span class="tic" id="tic-analise"></span>Análise</button>
+<nav class="dock" aria-label="Navegação">
+  <button class="dk" data-tab="agenda" aria-label="Agenda" title="Agenda"><span id="tic-agenda"></span></button>
+  <button class="dk-main" id="fab"><span class="orbi" id="fab-ic"></span>Adicionar</button>
+  <button class="dk" data-tab="analise" aria-label="Análise" title="Análise"><span id="tic-analise"></span></button>
 </nav>
-<button class="fab" id="fab" aria-label="Adicionar"></button>
 <div class="auth" id="auth" hidden>
   <div class="auth-card card">
     <div class="auth-logo"><img src="icons/icon-192.png" alt=""></div>
@@ -642,7 +863,7 @@ const UI = {
   check:'M5 12l5 5 9-10', lapis:'M4 20h4L19 9l-4-4L4 16zM14 6l4 4', mais:'M12 5v14M5 12h14',
   x:'M6 6l12 12M18 6L6 18', ajustes:'M4 7h10M18 7h2M4 17h4M12 17h8M14 5v4M8 15v4', voltar:'M15 5l-7 7 7 7',
   sol:'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4',
-  cal:'M4 6h16v14H4zM4 10h16M8 3v4M16 3v4M8 14h2M14 14h2M8 17h2', relogio:'M12 7v5l3 2M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z', grafico:'M4 20V11M10 20V5M16 20v-6M2 20h20'
+  cal:'M4 6h16v14H4zM4 10h16M8 3v4M16 3v4M8 14h2M14 14h2M8 17h2', grade:'M5 5h.01M12 5h.01M19 5h.01M5 12h.01M12 12h.01M19 12h.01M5 19h.01M12 19h.01M19 19h.01', seta:'M7 17L17 7M9 7h8v8', baixo:'M17 7L7 17M7 9v8h8', relogio:'M12 7v5l3 2M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z', grafico:'M4 20V11M10 20V5M16 20v-6M2 20h20'
 };
 /* Ilustrações próprias, mesmo traço: contorno escuro grosso, cores chapadas */
 const O = '#1B1B1F';
@@ -930,10 +1151,52 @@ function checkBtn(t, k, color, small){
 }
 
 /* ---------- Tela Hoje ---------- */
+let hojePer = 7;
+const PER_NOME = {7: 'semana', 30: 'mês', 90: 'trimestre'};
+const dShort = k => { const d = fromKey(k); return `${d.getDate()} ${MES[d.getMonth()]}`; };
+function hojeBuckets(n){
+  const start = S.created || TODAY;
+  const days = rangeKeys(n).map(k => {
+    if (k < start) return {k, none: true};
+    const s = dayStats(k);
+    return s.pct === null ? {k, none: true} : {k, n: s.n, done: s.done, pct: s.pct, hit: hit(k)};
+  });
+  if (n <= 31) return {days, cols: days};
+  const cols = [];
+  for (let i = 0; i < days.length; i += 7){
+    const g = days.slice(i, i + 7), a = g.filter(x => !x.none);
+    cols.push(a.length ? {k: g[0].k, n: a.reduce((x, y) => x + y.n, 0), done: a.reduce((x, y) => x + y.done, 0),
+      pct: a.reduce((x, y) => x + y.pct, 0) / a.length, hit: a.filter(x => x.hit).length * 2 >= a.length} : {k: g[0].k, none: true});
+  }
+  return {days, cols};
+}
+// Gráfico de pontos: cada coluna é um dia (ou semana); a altura mostra quanto da rotina foi feito
+function dotsRitmo(cols){
+  const W = 300, R = 8, step = 10, H = R * step, gap = W / cols.length, r = Math.min(2.6, gap * .3);
+  let g = '';
+  cols.forEach((c, i) => {
+    const x = (gap * i + gap / 2).toFixed(1), lv = c.none ? 0 : Math.round(c.pct / 100 * (R - 1));
+    for (let j = 0; j <= lv; j++) g += `<circle cx="${x}" cy="${H - step / 2 - j * step}" r="${r}" class="${j === 0 ? 'b' : c.hit ? 'h' : 'o'}"/>`;
+  });
+  return `<svg class="dotc" viewBox="0 0 ${W} ${H}" role="img" aria-label="Quanto da rotina foi feito em cada ${cols.length > 31 || cols.length === 13 ? 'semana' : 'dia'}">${g}</svg>`;
+}
+// Feito para cima (verde), faltou para baixo (vermelho)
+function dotsFluxo(cols){
+  const W = 300, R = 6, step = 9, H = (R * 2 + 1) * step, mid = H / 2, gap = W / cols.length, r = Math.min(2.4, gap * .3);
+  const miss = c => c.none ? 0 : c.n - c.done;
+  const M = Math.max(1, ...cols.map(c => c.none ? 0 : c.done), ...cols.map(miss));
+  let g = '';
+  cols.forEach((c, i) => {
+    const x = (gap * i + gap / 2).toFixed(1), up = c.none ? 0 : Math.round(c.done / M * R), dn = Math.round(miss(c) / M * R);
+    g += `<circle cx="${x}" cy="${mid}" r="${r}" class="z"/>`;
+    for (let j = 1; j <= up; j++) g += `<circle cx="${x}" cy="${mid - j * step}" r="${r}" class="g"/>`;
+    for (let j = 1; j <= dn; j++) g += `<circle cx="${x}" cy="${mid + j * step}" r="${r}" class="r"/>`;
+  });
+  return `<svg class="dotc" viewBox="0 0 ${W} ${H}" role="img" aria-label="Tarefas feitas e que faltaram em cada período">${g}</svg>`;
+}
 function renderHoje(){
   const d = fromKey(sel), isToday = sel === TODAY;
-  const hr = new Date().getHours(), greet = hr < 12 ? 'Bom dia' : hr < 18 ? 'Boa tarde' : 'Boa noite';
-  const st = dayStats(sel), pct = Math.round(st.pct || 0), sk = streak();
+  const st = dayStats(sel), sk = streak();
   const need = Math.max(0, Math.ceil(S.meta * st.n / 100 - st.sum - 1e-9));
   const prev = hit(TODAY) ? sk - 1 : sk;
   let msg;
@@ -942,44 +1205,71 @@ function renderHoje(){
   else if (prev > 0) msg = `Faltam ${plural(need,'tarefa','tarefas')} para manter sua sequência de ${plural(prev,'dia','dias')}.`;
   else msg = `Conclua ${plural(need,'tarefa','tarefas')} hoje para começar uma sequência.`;
 
+  const {days, cols} = hojeBuckets(hojePer), act = days.filter(x => !x.none);
+  const avg = act.length ? Math.round(act.reduce((a, x) => a + x.pct, 0) / act.length) : 0;
+  const doneP = act.reduce((a, x) => a + x.done, 0), metaD = act.filter(x => x.hit).length;
+  const midK = cols[Math.floor(cols.length / 2)].k;
+  const dayWord = isToday ? 'hoje' : 'neste dia';
+  const when = isToday ? 'Hoje' : sel === addDays(TODAY,-1) ? 'Ontem' : sel === addDays(TODAY,1) ? 'Amanhã' : `${d.getDate()} de ${MES[d.getMonth()]}`;
+
   const blocks = S.cats.map(c => {
     const s = dayStats(sel, t => t.cat === c.id);
     const next = S.tasks.filter(t => t.cat === c.id && scheduled(t, sel) && frac(t, sel) < 1).sort(byHora)[0];
     const all = s.n && s.done === s.n;
-    return `<button class="block" data-open="${c.id}" style="--c:${c.color};--fg:${inkFor(c.color)}" aria-label="${esc(c.name)}, ${s.done} de ${s.n} feitas">
+    return `<button class="block aura cat" data-open="${c.id}" style="--c:${c.color};--fg:${inkFor(c.color)}" aria-label="${esc(c.name)}, ${s.done} de ${s.n} feitas">
       <span class="art">${catArt(c)}</span>
       <span class="cnt num">${all ? svg(UI.check, 3) : `${s.done}/${s.n}`}</span>
       <span class="nm">${esc(c.name)}</span>
       <span class="nx">${!s.n ? 'Nada neste dia' : all ? 'Tudo feito' : `Próxima: ${esc(next.name)}`}</span>
       <span class="mini"><i style="width:${s.pct || 0}%"></i></span>
     </button>`;
-  }).join('') + `<button class="block add" data-newcat="1"><span class="ic">${svg(UI.mais)}</span><span style="font-weight:800">Nova categoria</span></button>`;
+  }).join('') + `<button class="block add" data-newcat="1"><span class="ic">${svg(UI.mais)}</span><span style="font-weight:700">Nova categoria</span></button>`;
 
   const pend = S.tasks.filter(t => scheduled(t, sel) && frac(t, sel) < 1).sort(byHora).slice(0, 3);
-  const nextHtml = !isToday ? '' : `<div class="sec-h"><h2>A seguir</h2><small>${plural(st.n - st.done, 'pendente', 'pendentes')}</small></div>
+  const nextHtml = !isToday ? '' : `<div id="aseguir"><div class="sec-h"><h2>A seguir</h2><small>${plural(st.n - st.done, 'pendente', 'pendentes')}</small></div>
     ${pend.length ? `<ul class="next">${pend.map(t => { const c = catOf(t.cat); return `<li><span class="dotcol"><i></i></span>
       <div class="ncard"><div class="t"><b>${esc(t.name)}</b><small><span class="tag" style="background:${c.color}"></span>${esc(c.name)}${t.hora ? ` · ${esc(t.hora)}` : ''}</small></div>${checkBtn(t, sel, c.color)}</div></li>`; }).join('')}</ul>`
-      : `<div class="allset">Tudo feito por hoje. Aproveite o descanso.</div>`}`;
+      : `<div class="allset">Tudo feito por hoje. Aproveite o descanso.</div>`}</div>`;
 
   document.getElementById('scr-hoje').innerHTML = `
-    <div class="top"><div><small>${isToday ? greet : 'Vendo outro dia'}</small>${syncChip()}
-      ${isToday ? '' : '<button class="today-chip" data-gotoday="1">Voltar para hoje</button>'}</div>
-      <button class="round" data-settings="1" aria-label="Ajustes">${svg(UI.ajustes)}</button></div>
-    <div class="hoje-grid">
-      <div class="g-hero" style="display:flex;flex-direction:column;gap:10px">
-        <div class="hero">
-          <span class="datecard" aria-hidden="true"><small>${MES[d.getMonth()].toUpperCase()}</small><b class="num">${d.getDate()}</b><em>${DOW[d.getDay()]}</em></span>
-          <div class="when">${isToday ? 'Hoje' : sel === addDays(TODAY,-1) ? 'Ontem' : sel === addDays(TODAY,1) ? 'Amanhã' : sel > TODAY ? 'Dia futuro' : 'Dia anterior'}</div>
-          <h1 class="bigdate">${cap(DOWL[d.getDay()])},<br>${d.getDate()} de ${MESL[d.getMonth()].toLowerCase()}</h1>
-          <div class="streakchip"><span>${svg(UI.chama)}</span><b class="num">${plural(sk, 'dia seguido', 'dias seguidos')}</b></div>
+    <div class="hdr">
+      ${isToday ? `<button class="round daynum" data-tab="agenda" aria-label="Abrir agenda"><small>${MES[d.getMonth()]}</small><b class="num">${d.getDate()}</b></button>`
+        : `<button class="round" data-gotoday="1" aria-label="Voltar para hoje">${svg(UI.voltar, 2.4)}</button>`}
+      <div class="ttl"><h1>${when}</h1><small>${cap(DOWL[d.getDay()])}, ${d.getDate()} de ${MESL[d.getMonth()].toLowerCase()}</small>${syncChip()}</div>
+      <button class="round" data-settings="1" aria-label="Ajustes">${svg(UI.ajustes)}</button>
+    </div>
+    <div class="hseg" role="group" aria-label="Período">${[[7,'Semana'],[30,'Mês'],[90,'Trimestre']].map(([n,l]) => `<button data-hper="${n}" class="${hojePer === n ? 'on' : ''}">${l}</button>`).join('')}</div>
+    <div class="hoje2">
+      <div class="colA">
+        <div class="hero2 aura">
+          <span class="lb">Ritmo da rotina</span>
+          <div class="bignum num"><b>${avg}%</b><span>${plural(doneP, 'tarefa feita', 'tarefas feitas')}</span></div>
+          ${dotsRitmo(cols)}
+          <div class="axis num"><span>${dShort(cols[0].k)}</span><span>${plural(metaD, 'dia', 'dias')} com meta ${S.meta}%</span><span>hoje</span></div>
+        </div>
+        <div class="duo2">
+          <button class="mini2 aura blue" data-tab="analise">
+            <span class="mh">${svg(UI.check, 2.4)}Feitas</span><span class="go">${svg(UI.seta, 2.4)}</span>
+            <b class="num">${st.done}</b><small>de ${st.n} ${dayWord}</small>
+          </button>
+          <button class="mini2 aura red" data-pend="1">
+            <span class="mh">${svg(UI.relogio, 2.2)}Pendentes</span><span class="go">${svg(UI.baixo, 2.4)}</span>
+            <b class="num">${st.n - st.done}</b><small>faltam ${dayWord}</small>
+          </button>
+        </div>
+        <div class="card flow">
+          <div class="fh"><span>Sequência</span><span class="lg"><span><i style="background:var(--good)"></i>Feito</span><span><i style="background:var(--bad)"></i>Faltou</span></span></div>
+          <div class="bignum num"><b>${sk}</b><span>${sk === 1 ? 'dia seguido' : 'dias seguidos'} · recorde ${bestStreak()}</span></div>
           <p>${msg}</p>
-          <div class="hbar"><i style="width:${pct}%"></i></div>
-          <div class="foot num"><span>${st.done} de ${st.n} tarefas</span><span>${pct}% · meta ${S.meta}%</span></div>
+          ${dotsFluxo(cols)}
+          <div class="axis num"><span>${dShort(cols[0].k)}</span><span>${cols.length > 8 ? dShort(midK) : ''}</span><span>hoje</span></div>
         </div>
         ${S.demo ? `<div class="demo">Os dias anteriores têm dados de exemplo.<button data-cleardemo="1">Zerar</button></div>` : ''}
       </div>
-      <div class="g-blocks"><div class="sec-h"><h2>Categorias</h2><small>Toque para abrir</small></div><div class="blocks">${blocks}</div></div>
-      <div class="g-next">${nextHtml}${isToday ? weekSummary() : ''}</div>
+      <div class="colB">
+        <div><div class="sec-h"><h2>Categorias</h2><small>Toque para abrir</small></div><div class="blocks">${blocks}</div></div>
+        ${nextHtml}
+      </div>
     </div>`;
 }
 
@@ -1022,7 +1312,7 @@ function renderCat(){
       + `<button class="link addgrp" data-newgrp="${c.id}">Dividir em grupos (ex.: locais de trabalho)</button>`;
   }
   document.getElementById('scr-cat').innerHTML = `<div class="catwrap">
-    <div class="band" style="--c:${c.color};--fg:${inkFor(c.color)}">
+    <div class="band aura cat" style="--c:${c.color};--fg:${inkFor(c.color)}">
       <span class="bandart">${catArt(c)}</span>
       <div class="bar1"><button class="round" data-back="1" aria-label="Voltar">${svg(UI.voltar, 2.4)}</button>
         <button class="round" data-ecat="${c.id}" aria-label="Editar categoria">${svg(UI.lapis)}</button></div>
@@ -1085,7 +1375,8 @@ function monthGrid(){
 function renderAgenda(){
   const viewSeg = `<div class="seg agseg" role="group" aria-label="Formato da agenda"><button data-agview="mes" class="${agView === 'mes' ? 'on' : ''}">Mês</button><button data-agview="lista" class="${agView === 'lista' ? 'on' : ''}">Lista</button></div>`;
   const filters = `<div class="filters"><button class="fchip${showDone ? '' : ' on'}" data-done="0">Só pendentes</button><button class="fchip${showDone ? ' on' : ''}" data-done="1">Mostrar feitas</button></div>`;
-  const head = `<div class="top"><div><small>Tudo o que vem pela frente</small><h1>Agenda</h1></div>
+  const head = `<div class="hdr"><button class="round" data-tab="hoje" aria-label="Voltar para Hoje">${svg(UI.voltar, 2.4)}</button>
+      <div class="ttl"><h1>Agenda</h1><small>Tudo o que vem pela frente</small></div>
       <button class="round" data-agtoday="1" aria-label="Ir para hoje">${svg(UI.sol)}</button></div>`;
   if (agView === 'mes'){
     document.getElementById('scr-agenda').innerHTML = `<div class="ag-top static">${head}${viewSeg}</div>
@@ -1224,12 +1515,14 @@ function renderAnalise(){
     return `<div class="crow"><span class="cic" style="background:${c.color};color:${inkFor(c.color)}">${catArt(c)}</span><div class="cn"><b>${esc(c.name)}</b><small>${dn} de ${sc} concluídas${usesTime(c) ? ` · ${fmtMin(mm)}` : ''}</small><span class="cbar2"><i style="width:${pc}%;background:${c.color}"></i></span></div><b class="num cp">${pc}%</b></div>` + (c.groups || []).map(g => { const gp = ps.filter(p => p.t.grp === g.id), gsc = gp.reduce((a, p) => a + p.sched, 0), gdn = gp.reduce((a, p) => a + p.done, 0), gpc = gsc ? Math.round(gdn / gsc * 100) : 0, gm = gp.reduce((a, p) => a + p.mins, 0);
       return `<div class="crow sub">${grpLogo(g)}<div class="cn"><b>${esc(g.name)}</b><small>${gdn} de ${gsc} concluídas${usesTime(c) ? ` · ${fmtMin(gm)}` : ''}</small><span class="cbar2"><i style="width:${gpc}%;background:${c.color}"></i></span></div><b class="num cp">${gpc}%</b></div>`; }).join(''); }).join('');
   document.getElementById('scr-analise').innerHTML = `
-    <div class="top"><div><small>Como você está indo</small><h1>Análise</h1></div></div>
+    <div class="hdr"><button class="round" data-tab="hoje" aria-label="Voltar para Hoje">${svg(UI.voltar, 2.4)}</button>
+      <div class="ttl"><h1>Análise</h1><small>Como você está indo</small></div>
+      <button class="round" data-settings="1" aria-label="Ajustes">${svg(UI.ajustes)}</button></div>
     <div class="seg perseg" role="group" aria-label="Período">${[[7,'7 dias'],[30,'30 dias'],[90,'90 dias']].map(([n,l]) => `<button data-per="${n}" class="${anPer === n ? 'on' : ''}">${l}</button>`).join('')}</div>
     <div class="kpis">
-      <div class="kpi card"><small>Vezes que você fez tarefas</small><b class="num">${P.vezes}</b></div>
-      <div class="kpi card"><small>Tempo registrado</small><b class="num">${fmtMin(P.mins)}</b></div>
-      <div class="kpi card"><small>Dias com a meta batida</small><b class="num">${P.metaDays}<span> de ${P.activeDays}</span></b></div>
+      <div class="kpi aura"><small>Vezes que você fez tarefas</small><b class="num">${P.vezes}</b></div>
+      <div class="kpi aura blue"><small>Tempo registrado</small><b class="num">${fmtMin(P.mins)}</b></div>
+      <div class="kpi aura red"><small>Dias com a meta batida</small><b class="num">${P.metaDays}<span> de ${P.activeDays}</span></b></div>
       <div class="kpi card"><small>Sequência atual</small><b class="num">${sk}<span> · recorde ${bestStreak()}</span></b></div>
     </div>
     <div class="an-grid">
@@ -1265,7 +1558,7 @@ function render(){
   if (tab === 'hoje' && !openCat) renderHoje();
   sh.hidden = !(tab === 'hoje' && !openCat); sc.hidden = !(tab === 'hoje' && openCat); sa.hidden = tab !== 'agenda'; document.getElementById('scr-analise').hidden = tab !== 'analise'; renderTimerBar();
   document.getElementById('content').classList.toggle('ag', tab === 'agenda');
-  document.querySelectorAll('.tab').forEach(b => { const on = b.dataset.tab === tab; b.classList.toggle('on', on); b.setAttribute('aria-current', on ? 'page' : 'false'); });
+  document.querySelectorAll('.dk').forEach(b => { const on = b.dataset.tab === tab; b.classList.toggle('on', on); b.setAttribute('aria-current', on ? 'page' : 'false'); });
 }
 function go(newTab){
   tab = newTab; openCat = null;
@@ -1277,7 +1570,8 @@ function go(newTab){
 document.addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b || b.closest('.sheet')) return;
   const ds = b.dataset;
-  if (ds.tab){ go(ds.tab); return; }
+  if (ds.tab){ go(b.classList.contains('dk') && ds.tab === tab ? 'hoje' : ds.tab); return; }
+  if (ds.hper){ hojePer = +ds.hper; render(); return; }
   if (ds.time){ timeForm(S.tasks.find(x => x.id === ds.time), ds.k || sel); return; }
   if (ds.stoptimer){ stopTimer(); render(); return; }
   if (ds.per){ anPer = +ds.per; render(); return; }
@@ -1285,6 +1579,7 @@ document.addEventListener('click', e => {
   if (ds.open){ openCat = ds.open; render(); window.scrollTo(0, 0); return; }
   if (ds.back){ openCat = null; render(); window.scrollTo(0, 0); return; }
   if (ds.gotoday){ sel = TODAY; render(); return; }
+  if (ds.pend){ const el = document.getElementById('aseguir') || document.querySelector('.blocks'); el && el.scrollIntoView({behavior:'smooth', block:'start'}); return; }
   if (ds.settings){ settings(); return; }
   if (ds.cleardemo){ S.hist = {[TODAY]: S.hist[TODAY] || {}}; S.demo = false; save(); render(); return; }
   if (ds.newcat){ catForm(null); return; }
@@ -1314,9 +1609,8 @@ document.addEventListener('click', e => {
   if (ds.edit){ taskForm(S.tasks.find(x => x.id === ds.edit)); return; }
   if (ds.ecat){ catForm(S.cats.find(x => x.id === ds.ecat)); return; }
 });
-document.getElementById('fab').innerHTML = svg(UI.mais, 2.6);
-document.getElementById('tic-hoje').innerHTML = svg(UI.sol);
-document.getElementById('tic-agenda').innerHTML = svg(UI.cal);
+document.getElementById('fab-ic').innerHTML = svg(UI.mais, 2.6);
+document.getElementById('tic-agenda').innerHTML = svg(UI.grade, 3.4);
 document.getElementById('tic-analise').innerHTML = svg(UI.grafico);
 document.getElementById('fab').onclick = addMenu;
 
