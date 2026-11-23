@@ -1177,7 +1177,7 @@ function seed(){
   const t = (cat,name,o={}) => ({id:uid(),cat,name,freq:'diaria',days:[],date:'',times:1,hora:'',nota:'',subs:[],...o});
   const uteis = [1,2,3,4,5];
   const s = {
-    meta: 80, demo: false, hist: {}, created: TODAY, pal: 'terra', v5: 1,
+    meta: 50, seq: 'meta', demo: false, hist: {}, created: TODAY, pal: 'terra', v5: 1, v6: 1,
     cats: [c('exe','Exercícios','halter',seedColor('exe')), c('sau','Rotina de saúde','coracao',seedColor('sau')), c('edu','Educação','graduacao',seedColor('edu')),
            c('tra','Trabalho','maleta',seedColor('tra')), c('ali','Alimentação','talher',seedColor('ali')), c('imp','Tarefas não regulares','raio',seedColor('imp'))],
     tasks: [
@@ -1221,6 +1221,7 @@ function migrate(){
   if (!PALS[S.pal]){ const old = OLD_PALS[S.pal] || []; S.pal = 'sol'; S.cats.forEach(c => { const i = old.indexOf(c.color); if (i >= 0) c.color = PALS.sol.cats[i]; }); }
   S.cats.forEach(c => { if (OLD_COLORS.includes(c.color)) c.color = seedColor(c.id); if (OLD_ART[c.art]) c.art = OLD_ART[c.art]; });
   if (!S.v5){ S.v5 = 1; if (S.pal !== 'terra') setPal('terra'); }
+  if (!S.v6){ S.v6 = 1; S.seq = 'meta'; S.meta = 50; }
   document.documentElement.dataset.pal = S.pal;
 }
 migrate();
@@ -1366,8 +1367,8 @@ function dayStats(k, filter = () => true){
   return { n: ts.length, sum, done: ts.filter(t => frac(t, k) >= 1).length, pct: ts.length ? sum / ts.length * 100 : null };
 }
 const hit = k => { const p = dayStats(k).pct; return p !== null && p >= S.meta; };
-// Dia que conta na sequência: com pelo menos uma tarefa marcada (padrão) ou com a meta batida
-const seqMode = () => S.seq || 'uma';
+// Dia que conta na sequência: com a meta diária batida (padrão, 50%) ou com pelo menos uma tarefa marcada
+const seqMode = () => S.seq || 'meta';
 const seqDay = k => seqMode() === 'meta' ? hit(k) : dayStats(k).sum > 0;
 function streak(){
   let n = seqDay(TODAY) ? 1 : 0, k = addDays(TODAY, -1);
@@ -2219,7 +2220,7 @@ function catForm(c){
 function settings(){
   openSheet(`<h3>Ajustes</h3>
     <div class="field"><label for="s-nome">Seu nome</label><input type="text" id="s-nome" value="${esc(S.nome || userName())}" placeholder="Como quer ser chamado no Início" autocomplete="given-name"></div>
-    <div class="field"><span class="lbl">Um dia conta na sequência quando</span><div class="seg" id="s-seq"><button data-seq="uma" class="${seqMode() === 'uma' ? 'on' : ''}">Marco 1 tarefa ou mais</button><button data-seq="meta" class="${seqMode() === 'meta' ? 'on' : ''}">Bato a meta diária</button></div></div>
+    <div class="field"><span class="lbl">Um dia conta na sequência quando</span><div class="seg" id="s-seq"><button data-seq="meta" class="${seqMode() === 'meta' ? 'on' : ''}">Bato a meta diária</button><button data-seq="uma" class="${seqMode() === 'uma' ? 'on' : ''}">Marco 1 tarefa ou mais</button></div></div>
     <div class="field"><label for="s-meta">Meta diária: <span id="s-val" class="num">${S.meta}%</span></label><input type="range" id="s-meta" min="50" max="100" step="5" value="${S.meta}"></div>
     <p class="note">Usada nos dias na meta, nos gráficos e, se você escolher, na sequência.</p>
     <div class="field"><span class="lbl">Paleta de cores</span><div class="pals">${Object.entries(PALS).map(([k, v]) => `<button data-pal="${k}" class="${S.pal === k ? 'on' : ''}"><span class="sw">${v.prev.concat(v.cats.slice(0,4)).map(c => `<i style="background:${c}"></i>`).join('')}</span><b>${v.nome}</b></button>`).join('')}</div></div>
