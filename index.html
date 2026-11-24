@@ -772,6 +772,9 @@ h1,h2,h3{font-family:var(--font-display);font-weight:600;letter-spacing:-.02em}
 .mcal .md.out{background:transparent;color:transparent;pointer-events:none}
 .mcal .md.past{opacity:.75}
 .mcal .md.today{background:var(--orange);color:#fff;font-weight:600}
+.mcal .md.hit{background:var(--forest);color:#F3EEE2;opacity:1;font-weight:600}
+.mcal .md.hit::after{content:"";position:absolute;top:3px;right:3px;width:5px;height:5px;border-radius:50%;background:#B9D99A}
+.mcal .md.today.hit{background:var(--orange);box-shadow:0 0 0 2px var(--panel),0 0 0 4px var(--forest)}
 .mcal .md i{position:absolute;bottom:3px;display:flex;gap:2px}
 .mcal .md i b{width:3.5px;height:3.5px;border-radius:50%}
 .mcal .mn{display:flex;align-items:center;justify-content:space-between;margin-top:10px;font-family:var(--font-display);font-size:16px}
@@ -1147,7 +1150,18 @@ button.av{border:0;padding:0;overflow:hidden;cursor:pointer}
   .fgrp{break-inside:avoid}
 }
 :focus-visible{outline-color:var(--ink)}
-@media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
+/* Animações suaves ao abrir telas, blocos e janelas */
+@keyframes rise{from{opacity:0;transform:translateY(16px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+@keyframes sheetup{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+@keyframes sheetpop{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes grow{from{transform:scaleY(0)}to{transform:none}}
+.ani{animation:rise .55s cubic-bezier(.22,1,.36,1) backwards;animation-delay:calc(var(--i,0) * 55ms)}
+.ani .bars .b i::after{transform-origin:bottom;animation:grow .8s cubic-bezier(.22,1,.36,1) backwards;animation-delay:calc(var(--i,0) * 55ms + 200ms)}
+.scrim.open{animation:fadein .25s ease both}
+.scrim.open .sheet{animation:sheetup .38s cubic-bezier(.22,1,.36,1) both}
+@media (min-width:700px){.scrim.open .sheet{animation-name:sheetpop}}
+@media (prefers-reduced-motion: reduce){*,*::after{transition:none!important;scroll-behavior:auto!important;animation:none!important}}
 </style>
 </head>
 <body>
@@ -1603,14 +1617,15 @@ function miniCal(){
     const k = keyOf(new Date(calY, calM, dd));
     const pend = k < (S.created || TODAY) ? [] : S.tasks.filter(t => t.freq === 'unica' && scheduled(t, k) && frac(t, k) < 1);
     const dots = [...new Set(pend.map(t => catOf(t.cat).color))].slice(0, 3).map(c => `<b style="background:${c}"></b>`).join('');
-    cells += `<button class="md num${k === TODAY ? ' today' : k < TODAY ? ' past' : ''}" data-minical="${k}" aria-label="${dd} de ${MESL[calM]}${pend.length ? `, ${plural(pend.length, 'compromisso', 'compromissos')}` : ''}">${dd}${dots ? `<i>${dots}</i>` : ''}</button>`;
+    const ok = k <= TODAY && k >= (S.created || TODAY) && hit(k);
+    cells += `<button class="md num${k === TODAY ? ' today' : k < TODAY ? ' past' : ''}${ok ? ' hit' : ''}" data-minical="${k}" aria-label="${dd} de ${MESL[calM]}${ok ? ', meta cumprida' : ''}${pend.length ? `, ${plural(pend.length, 'compromisso', 'compromissos')}` : ''}">${dd}${dots ? `<i>${dots}</i>` : ''}</button>`;
   }
   const sp = S.tasks.filter(t => t.freq === 'unica' && scheduled(t, TODAY)).length, st = dayStats(TODAY);
   return `<div class="hc mcal">
     <div class="mw">${['S','T','Q','Q','S','S','D'].map(x => `<span>${x}</span>`).join('')}</div>
     <div class="mg">${cells}</div>
     <div class="mn"><button data-calnav="-1" aria-label="Mês anterior">${svg(UI.voltar, 2.2)}</button><span>${MESL[calM]} de ${calY}</span><button data-calnav="1" aria-label="Próximo mês">${svg(UI.dir, 2.2)}</button></div>
-    <div class="lgd mono"><span><i style="background:var(--accent)"></i>compromissos</span><span><i style="background:var(--muted)"></i>passado</span></div>
+    <div class="lgd mono"><span><i style="background:var(--forest)"></i>meta cumprida</span><span><i style="background:var(--accent)"></i>compromissos</span></div>
     <button class="ft" data-tab="agenda"><b>Hoje</b><span>${plural(sp, 'compromisso', 'compromissos')} · ${plural(st.n, 'tarefa', 'tarefas')}</span>${svg(UI.seta, 2.2)}</button>
   </div>`;
 }
@@ -1639,7 +1654,7 @@ function renderHoje(){
 
   const start = S.created || TODAY;
   const wk = rangeKeys(7).map(k => { const s = k < start ? null : dayStats(k); return {k, none: !s || s.pct === null, pct: s && s.pct !== null ? s.pct : 0, done: s ? s.done : 0, hit: hit(k)}; });
-  const act = wk.filter(x => !x.none), avg = act.length ? Math.round(act.reduce((a, x) => a + x.pct, 0) / act.length) : 0;
+  const act = wk.filter(x => !x.none);
   const done7 = act.reduce((a, x) => a + x.done, 0), meta7 = act.filter(x => x.hit).length;
   const bars = wk.map(x => `<span class="b${x.hit ? ' hit' : ''}${x.k === TODAY ? ' now' : ''}" title="${dShort(x.k)}: ${x.none ? 'sem dados' : Math.round(x.pct) + '%'}"><i style="--p:${x.none ? 0 : Math.max(4, x.pct)}%"></i><span>${DOW[fromKey(x.k).getDay()].slice(0, 3)}</span></span>`).join('');
 
@@ -1683,9 +1698,9 @@ function renderHoje(){
       <div class="hh"><h2>Ritmo</h2><button class="mono" data-tab="analise">Últimos 7 dias ${svg(UI.seta, 2.2)}</button></div>
       <div class="rbody">
         <div>
-          <div class="big num">${avg}%</div>
-          <small class="mono" style="opacity:.75">Média da rotina</small>
-          <div class="stats"><div><b class="num">${done7}</b><small>feitas</small></div><div><b class="num">${meta7}/${act.length || 0}</b><small>dias na meta</small></div></div>
+          <div class="big num">${Math.round(st.pct || 0)}%</div>
+          <small class="mono" style="opacity:.75">Concluído ${dayWord}</small>
+          <div class="stats"><div><b class="num">${st.done}/${st.n}</b><small>feitas ${dayWord}</small></div><div><b class="num">${meta7}/${act.length || 0}</b><small>dias na meta</small></div></div>
         </div>
         <div class="bars">${bars}</div>
       </div>
@@ -2139,6 +2154,16 @@ function renderNav(){
   document.getElementById('brand-nm').innerHTML = brandHtml();
   document.title = S.appNome || 'Minha Rotina';
 }
+/* Entrada suave: os cartões aparecem um após o outro só quando você muda de tela (não a cada marcação). */
+let lastView = '';
+function animateEnter(scr){
+  if (!scr || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  let els = [...scr.children];
+  if (els.length === 1) els = [...els[0].children];
+  const inner = [...scr.querySelectorAll('.blocks > .block, ul.pills > li')];
+  const put = (el, i) => { el.classList.remove('ani'); el.style.setProperty('--i', Math.min(i, 14)); void el.offsetWidth; el.classList.add('ani'); };
+  els.forEach(put); inner.forEach((el, i) => put(el, 2 + i));
+}
 function render(){
   metaCache = null;
   if (tab === 'agenda') renderAgenda();
@@ -2150,6 +2175,8 @@ function render(){
   if (tab === 'hoje' && !openCat) renderHoje();
   const show = {hoje: tab === 'hoje' && !openCat, cat: tab === 'hoje' && !!openCat, tarefas: tab === 'tarefas', habitos: tab === 'habitos', notas: tab === 'notas', agenda: tab === 'agenda', analise: tab === 'analise'};
   Object.entries(show).forEach(([id, on]) => { document.getElementById('scr-' + id).hidden = !on; });
+  const view = tab + '|' + (openCat || '');
+  if (view !== lastView){ lastView = view; const id = Object.keys(show).find(x => show[x]); id && animateEnter(document.getElementById('scr-' + id)); }
   renderTimerBar(); renderNav();
   document.getElementById('content').classList.toggle('ag', tab === 'agenda');
 }
